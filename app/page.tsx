@@ -1,65 +1,121 @@
-import Image from "next/image";
+import Link from 'next/link'
+import Image from 'next/image'
+import { createClient } from '@/lib/supabase/server'
 
-export default function Home() {
+export default async function Home() {
+  const serverClient = await createClient()
+  const { data: { user } } = await serverClient.auth.getUser()
+  const isSubscribed = user?.user_metadata?.subscribed === true
+
+  if (isSubscribed) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center px-4" style={{ backgroundColor: '#FFF9F5' }}>
+        <div className="w-full max-w-sm text-center">
+          <Image src="/logo.png" alt="CocoHare" width={120} height={36} className="mx-auto mb-2" />
+          <p className="text-sm mb-7" style={{ color: '#3F342D99' }}>こころ晴れる毎日を</p>
+
+          {/* ぽとりと話す（メイン） */}
+          <div className="bg-white rounded-2xl shadow-sm p-5 mb-4">
+            <div className="flex justify-center mb-3">
+              <Image src="/potori/humming.png" alt="ぽとり" width={72} height={72} className="object-contain" />
+            </div>
+            <h2 className="text-sm font-medium mb-1.5" style={{ color: '#3F342D' }}>ぽとりと話す</h2>
+            <p className="text-xs leading-relaxed mb-4" style={{ color: '#3F342D99' }}>
+              今日のきもちを話してみましょう。<br />
+              ぽとりがそっと寄り添います。
+            </p>
+            <Link
+              href="/counseling/chat"
+              className="block w-full py-3 rounded-xl text-white text-sm font-medium transition hover:opacity-90"
+              style={{ backgroundColor: '#FAA66B' }}
+            >
+              話しはじめる
+            </Link>
+          </div>
+
+          {/* 診断 */}
+          <div className="bg-white rounded-2xl shadow-sm p-5 mb-4">
+            <div className="flex justify-center mb-3">
+              <Image src="/potori/good.png" alt="ぽとり" width={72} height={72} className="object-contain" />
+            </div>
+            <h2 className="text-sm font-medium mb-1.5" style={{ color: '#3F342D' }}>無料性格診断</h2>
+            <p className="text-xs leading-relaxed mb-4" style={{ color: '#3F342D99' }}>
+              20問の質問に答えるだけで、<br />
+              あなたの性格タイプとしんどさの傾向がわかります。
+            </p>
+            <Link
+              href="/diagnosis/free"
+              className="block w-full py-3 rounded-xl text-white text-sm font-medium transition hover:opacity-90"
+              style={{ backgroundColor: '#FAA66B' }}
+            >
+              性格診断を受ける
+            </Link>
+          </div>
+
+          <div className="flex gap-3 text-xs" style={{ color: '#3F342D66' }}>
+            <Link href="/mypage" className="flex-1 py-2.5 rounded-xl border text-center transition" style={{ borderColor: '#E5DDD8' }}>
+              マイページ
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className="min-h-screen flex flex-col items-center justify-center px-4" style={{ backgroundColor: '#FFF9F5' }}>
+      <div className="w-full max-w-sm text-center">
+        <Image src="/logo.png" alt="CocoHare" width={120} height={36} className="mx-auto mb-2" />
+        <p className="text-sm mb-7" style={{ color: '#3F342D99' }}>こころ晴れる毎日を</p>
+
+        {/* 診断 */}
+        <div className="bg-white rounded-2xl shadow-sm p-5 mb-4">
+          <div className="flex justify-center mb-3">
+            <Image src="/potori/good.png" alt="ぽとり" width={72} height={72} className="object-contain" />
+          </div>
+          <h2 className="text-sm font-medium mb-1.5" style={{ color: '#3F342D' }}>無料性格診断</h2>
+          <p className="text-xs leading-relaxed mb-4" style={{ color: '#3F342D99' }}>
+            20問の質問に答えるだけで、<br />
+            あなたの性格タイプとしんどさの傾向がわかります。
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/diagnosis/free"
+            className="block w-full py-3 rounded-xl text-white text-sm font-medium transition hover:opacity-90"
+            style={{ backgroundColor: '#FAA66B' }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            無料で診断する
+          </Link>
+          <p className="text-xs mt-2" style={{ color: '#3F342D66' }}>ログイン不要・約3〜5分</p>
         </div>
-      </main>
+
+        {/* ぽとりと話す */}
+        <div className="bg-white rounded-2xl shadow-sm p-5 mb-4">
+          <div className="flex justify-center mb-3">
+            <Image src="/potori/humming.png" alt="ぽとり" width={72} height={72} className="object-contain" />
+          </div>
+          <h2 className="text-sm font-medium mb-1.5" style={{ color: '#3F342D' }}>ぽとりと話す</h2>
+          <p className="text-xs leading-relaxed mb-4" style={{ color: '#3F342D99' }}>
+            今日のきもちを話してみましょう。<br />
+            ぽとりがそっと寄り添います。
+          </p>
+          <Link
+            href="/counseling/chat"
+            className="block w-full py-3 rounded-xl text-white text-sm font-medium transition hover:opacity-90"
+            style={{ backgroundColor: '#FAA66B' }}
+          >
+            話しはじめる
+          </Link>
+        </div>
+
+        <div className="flex gap-3 text-xs" style={{ color: '#3F342D66' }}>
+          <Link href="/login" className="flex-1 py-2.5 rounded-xl border text-center transition" style={{ borderColor: '#E5DDD8' }}>
+            ログイン
+          </Link>
+          <Link href="/signup" className="flex-1 py-2.5 rounded-xl border text-center transition" style={{ borderColor: '#E5DDD8' }}>
+            会員登録
+          </Link>
+        </div>
+      </div>
     </div>
-  );
+  )
 }
