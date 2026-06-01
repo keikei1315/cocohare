@@ -78,21 +78,31 @@ export default function PwaNotifButtons() {
       {!pwaDone && (
         <button
           onClick={handlePwa}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium"
+          className="w-full flex items-start gap-3 px-4 py-3 rounded-xl text-left"
           style={{ backgroundColor: '#fff', border: '1.5px solid #FAA66B66', color: '#3F342D', boxShadow: '0 1px 6px rgba(63,52,45,0.06)' }}
         >
-          <span className="text-lg">📱</span>
-          <span>アプリをホームに追加する</span>
+          <span className="text-lg mt-0.5">📱</span>
+          <div>
+            <p className="text-sm font-medium">アプリをホームに追加する</p>
+            <p className="text-xs mt-0.5" style={{ color: '#3F342D66' }}>
+              {isIOS
+                ? '画面下の「共有」→「ホーム画面に追加」をタップ'
+                : 'タップするとインストール画面が表示されます'}
+            </p>
+          </div>
         </button>
       )}
       {!notifDone && (
         <button
           onClick={handleNotif}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium"
+          className="w-full flex items-start gap-3 px-4 py-3 rounded-xl text-left"
           style={{ backgroundColor: '#fff', border: '1.5px solid #FAA66B66', color: '#3F342D', boxShadow: '0 1px 6px rgba(63,52,45,0.06)' }}
         >
-          <span className="text-lg">🔔</span>
-          <span>通知を許可する</span>
+          <span className="text-lg mt-0.5">🔔</span>
+          <div>
+            <p className="text-sm font-medium">通知を許可する</p>
+            <p className="text-xs mt-0.5" style={{ color: '#3F342D66' }}>ぽとりからのお知らせを受け取れます</p>
+          </div>
         </button>
       )}
     </div>
