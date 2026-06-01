@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
+import PwaNotifButtons from '@/app/components/PwaNotifButtons'
 
 export default async function Home() {
   const serverClient = await createClient()
@@ -32,6 +33,8 @@ export default async function Home() {
               話しはじめる
             </Link>
           </div>
+
+          <PwaNotifButtons />
 
           {/* 診断 */}
           <div className="bg-white rounded-2xl shadow-sm p-5 mb-4">
