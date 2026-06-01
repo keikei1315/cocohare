@@ -187,9 +187,14 @@ export default function PwaNotifButtons() {
               <IconShare />
               <div>
                 <p style={{ fontSize: 14, fontWeight: 700, color: '#3F342D' }}>
-                  画面下の「共有」ボタンをタップ
+                  画面下、URLの下にある共有（
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style={{ display: 'inline', verticalAlign: 'middle' }}>
+                    <path d="M12 2v12M8 6l4-4 4 4" stroke="#3F342D" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M20 14v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6" stroke="#3F342D" strokeWidth="2.2" strokeLinecap="round"/>
+                  </svg>
+                  ）をタップ
                 </p>
-                <p style={{ fontSize: 12, color: '#3F342D88', marginTop: 2 }}>
+                <p style={{ fontSize: 12, color: '#3F342D88', marginTop: 4 }}>
                   次に「ホーム画面に追加」を選択してください
                 </p>
               </div>
