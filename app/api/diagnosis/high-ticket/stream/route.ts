@@ -3,6 +3,8 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { calculateStrengthScores } from '@/lib/diagnosis/high-ticket-questions'
 import { anthropic, extractJSON } from '@/lib/anthropic'
 
+export const maxDuration = 60
+
 const FIELD_ORDER = ['summary', 'strengths', 'core_insight', 'hardship_core', 'communication_style', 'talent_shadow', 'relationship_blueprint', 'energy_map', 'spiritual', 'roadmap', 'selfcare', 'inner_child', 'letter'] as const
 type FieldName = typeof FIELD_ORDER[number]
 

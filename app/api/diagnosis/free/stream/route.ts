@@ -3,6 +3,8 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { calculateType, AXIS1_NAMES, AXIS2_NAMES } from '@/lib/diagnosis/types'
 import { anthropic, extractJSON } from '@/lib/anthropic'
 
+export const maxDuration = 60
+
 const FIELD_ORDER = [
   'overview_para1', 'overview_para2', 'aru_aru',
   'strengths_overview', 'strengths',

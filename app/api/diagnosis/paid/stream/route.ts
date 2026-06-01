@@ -3,6 +3,8 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { calculateSectionScores } from '@/lib/diagnosis/paid-questions'
 import { anthropic, extractJSON } from '@/lib/anthropic'
 
+export const maxDuration = 60
+
 const FIELD_ORDER = [
   'hardship_root', 'hardship_root_steps', 'hardship_root_tip',
   'core_pattern', 'reaction_flow', 'core_pattern_tip',

@@ -4,6 +4,8 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
 import { isSubscribed } from '@/lib/plan'
 
+export const maxDuration = 60
+
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
 
 type FreeReport = {
