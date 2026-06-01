@@ -14,6 +14,28 @@ function urlBase64ToUint8Array(base64String: string) {
   return new Uint8Array([...rawData].map(c => c.charCodeAt(0)))
 }
 
+const IconPhone = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+    <rect x="5" y="2" width="14" height="20" rx="3" stroke="currentColor" strokeWidth="1.8"/>
+    <path d="M12 18h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+    <path d="M9 6h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+  </svg>
+)
+
+const IconBell = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+    <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M13.73 21a2 2 0 01-3.46 0" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+  </svg>
+)
+
+const IconShare = () => (
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+    <path d="M12 2v12M8 6l4-4 4 4" stroke="#FAA66B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M20 14v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6" stroke="#FAA66B" strokeWidth="2" strokeLinecap="round"/>
+  </svg>
+)
+
 export default function PwaNotifButtons() {
   const [isIOS, setIsIOS] = useState(false)
   const [isStandalone, setIsStandalone] = useState(false)
@@ -25,9 +47,8 @@ export default function PwaNotifButtons() {
   useEffect(() => {
     const ua = navigator.userAgent
     const ios = /iPhone|iPad|iPod/i.test(ua) && /Safari/.test(ua) && !/CriOS|FxiOS|OPiOS/.test(ua)
-    const standalone = window.matchMedia('(display-mode: standalone)').matches
     setIsIOS(ios)
-    setIsStandalone(standalone)
+    setIsStandalone(window.matchMedia('(display-mode: standalone)').matches)
 
     const handler = (e: Event) => {
       e.preventDefault()
@@ -73,84 +94,120 @@ export default function PwaNotifButtons() {
     }
   }
 
-  // iOSのブラウザ表示中は通知ボタンを非表示（PWAインストール後のみ有効）
   const showNotifButton = !notifDone && (!isIOS || isStandalone)
 
   return (
     <>
-      <div className="space-y-2 mb-4">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 16 }}>
         {!pwaDone && (
           <button
             onClick={handlePwa}
-            className="w-full flex items-start gap-3 px-4 py-3.5 rounded-xl text-left transition-opacity active:opacity-70"
-            style={{ backgroundColor: '#FAA66B', color: '#fff' }}
+            style={{
+              width: '100%', display: 'flex', alignItems: 'center', gap: 14,
+              padding: '14px 18px', borderRadius: 16, textAlign: 'left',
+              background: 'linear-gradient(135deg, #FAA66B, #F9847A)',
+              boxShadow: '0 4px 14px rgba(250,166,107,0.4)',
+              color: '#fff', border: 'none', cursor: 'pointer',
+            }}
           >
-            <span className="text-lg mt-0.5">📱</span>
-            <div>
-              <p className="text-sm font-medium">アプリをホームに追加する</p>
-              <p className="text-xs mt-0.5" style={{ color: '#ffffff99' }}>
-                {isIOS ? 'iPhoneのホーム画面からすぐ開けます' : 'アプリとしてインストールできます'}
+            <span style={{
+              width: 42, height: 42, borderRadius: 12, backgroundColor: 'rgba(255,255,255,0.2)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+            }}>
+              <IconPhone />
+            </span>
+            <div style={{ flex: 1 }}>
+              <p style={{ fontSize: 14, fontWeight: 700, marginBottom: 2 }}>ホーム画面に追加する</p>
+              <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.75)' }}>
+                {isIOS ? 'アプリのように使えます' : 'ワンタップでインストール'}
               </p>
             </div>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M6 4l4 4-4 4" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </button>
         )}
+
         {showNotifButton && (
           <button
             onClick={handleNotif}
-            className="w-full flex items-start gap-3 px-4 py-3.5 rounded-xl text-left transition-opacity active:opacity-70"
-            style={{ backgroundColor: '#FAA66B', color: '#fff' }}
+            style={{
+              width: '100%', display: 'flex', alignItems: 'center', gap: 14,
+              padding: '14px 18px', borderRadius: 16, textAlign: 'left',
+              background: 'linear-gradient(135deg, #FAA66B, #F9847A)',
+              boxShadow: '0 4px 14px rgba(250,166,107,0.4)',
+              color: '#fff', border: 'none', cursor: 'pointer',
+            }}
           >
-            <span className="text-lg mt-0.5">🔔</span>
-            <div>
-              <p className="text-sm font-medium">通知を許可する</p>
-              <p className="text-xs mt-0.5" style={{ color: '#ffffff99' }}>ぽとりからのお知らせを受け取れます</p>
+            <span style={{
+              width: 42, height: 42, borderRadius: 12, backgroundColor: 'rgba(255,255,255,0.2)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+            }}>
+              <IconBell />
+            </span>
+            <div style={{ flex: 1 }}>
+              <p style={{ fontSize: 14, fontWeight: 700, marginBottom: 2 }}>通知を許可する</p>
+              <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.75)' }}>ぽとりからのお知らせを受け取る</p>
             </div>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M6 4l4 4-4 4" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </button>
         )}
-        {isIOS && !isStandalone && !notifDone && (
-          <p className="text-xs text-center" style={{ color: '#3F342D66' }}>
-            ※ iPhoneの通知はホーム画面に追加後に設定できます
+
+        {isIOS && !isStandalone && (
+          <p style={{ fontSize: 11, textAlign: 'center', color: '#3F342D66' }}>
+            ※ iPhoneの通知はホーム画面追加後に設定できます
           </p>
         )}
       </div>
 
-      {/* iOSホーム追加ガイドモーダル */}
+      {/* iOS Safari ガイドオーバーレイ */}
       {showIOSGuide && (
         <div
-          style={{ position: 'fixed', inset: 0, zIndex: 100, backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'flex-end' }}
           onClick={() => setShowIOSGuide(false)}
+          style={{ position: 'fixed', inset: 0, zIndex: 200 }}
         >
+          {/* 上部ブラックアウト */}
+          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 80, backgroundColor: 'rgba(0,0,0,0.75)' }} />
+
+          {/* 説明バナー（ツールバー直上） */}
           <div
-            style={{ width: '100%', backgroundColor: '#fff', borderRadius: '20px 20px 0 0', padding: '24px' }}
             onClick={e => e.stopPropagation()}
+            style={{
+              position: 'absolute', bottom: 80, left: 0, right: 0,
+              backgroundColor: '#fff', padding: '16px 20px 12px',
+              borderTop: '2px solid #FAA66B',
+            }}
           >
-            <div style={{ width: 40, height: 4, backgroundColor: '#E0D9D4', borderRadius: 2, margin: '0 auto 20px' }} />
-            <p style={{ fontSize: 16, fontWeight: 700, color: '#3F342D', marginBottom: 16 }}>ホーム画面への追加手順</p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              {[
-                { step: '1', text: 'SafariのURL欄の下にある「共有」ボタン（□↑）をタップ' },
-                { step: '2', text: 'メニューを下にスクロールして「ホーム画面に追加」をタップ' },
-                { step: '3', text: '右上の「追加」をタップして完了' },
-              ].map(({ step, text }) => (
-                <div key={step} style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-                  <span style={{
-                    width: 24, height: 24, borderRadius: '50%', backgroundColor: '#FAA66B',
-                    color: '#fff', fontSize: 12, fontWeight: 700,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                  }}>{step}</span>
-                  <p style={{ fontSize: 14, color: '#3F342D', lineHeight: 1.5 }}>{text}</p>
-                </div>
-              ))}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
+              <IconShare />
+              <div>
+                <p style={{ fontSize: 14, fontWeight: 700, color: '#3F342D' }}>
+                  画面下の「共有」ボタンをタップ
+                </p>
+                <p style={{ fontSize: 12, color: '#3F342D88', marginTop: 2 }}>
+                  次に「ホーム画面に追加」を選択してください
+                </p>
+              </div>
             </div>
-            <button
-              onClick={() => setShowIOSGuide(false)}
-              style={{ width: '100%', marginTop: 24, padding: '12px', backgroundColor: '#FAA66B', borderRadius: 12, fontSize: 14, fontWeight: 700, color: '#fff' }}
-            >
-              閉じる
-            </button>
+            {/* 矢印アニメーション */}
+            <div style={{ textAlign: 'center' }}>
+              <span style={{ fontSize: 24, display: 'inline-block', animation: 'bounce 1s infinite' }}>↓</span>
+            </div>
           </div>
+
+          {/* ツールバー部分は透過（実際のSafariツールバーが見える） */}
+          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 80 }} />
         </div>
       )}
+
+      <style>{`
+        @keyframes bounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(6px); }
+        }
+      `}</style>
     </>
   )
 }
