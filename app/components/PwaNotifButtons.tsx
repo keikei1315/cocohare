@@ -169,18 +169,21 @@ export default function PwaNotifButtons() {
           style={{ position: 'fixed', inset: 0, zIndex: 200 }}
         >
           {/* 上部ブラックアウト */}
-          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 80, backgroundColor: 'rgba(0,0,0,0.75)' }} />
+          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.75)' }} />
 
-          {/* 説明バナー（ツールバー直上） */}
+          {/* 説明バナー（画面最下部、セーフエリア対応） */}
           <div
             onClick={e => e.stopPropagation()}
             style={{
-              position: 'absolute', bottom: 80, left: 0, right: 0,
-              backgroundColor: '#fff', padding: '16px 20px 12px',
+              position: 'absolute', bottom: 0, left: 0, right: 0,
+              backgroundColor: '#fff',
               borderTop: '2px solid #FAA66B',
+              borderRadius: '20px 20px 0 0',
+              padding: '20px 20px 0',
+              paddingBottom: 'max(20px, env(safe-area-inset-bottom))',
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
               <IconShare />
               <div>
                 <p style={{ fontSize: 14, fontWeight: 700, color: '#3F342D' }}>
@@ -191,14 +194,10 @@ export default function PwaNotifButtons() {
                 </p>
               </div>
             </div>
-            {/* 矢印アニメーション */}
             <div style={{ textAlign: 'center' }}>
               <span style={{ fontSize: 24, display: 'inline-block', animation: 'bounce 1s infinite' }}>↓</span>
             </div>
           </div>
-
-          {/* ツールバー部分は透過（実際のSafariツールバーが見える） */}
-          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 80 }} />
         </div>
       )}
 
