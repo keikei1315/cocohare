@@ -45,10 +45,8 @@ export default function HomeClient({
   const [selectedMood, setSelectedMood] = useState<number | null>(null)
   const [moodDone, setMoodDone] = useState(false)
   const [generatingTodos, setGeneratingTodos] = useState(false)
-  const [showPwa, setShowPwa] = useState(false)
   const [isIOS, setIsIOS] = useState(false)
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null)
-  const [showNotif, setShowNotif] = useState(false)
   const [notifDone, setNotifDone] = useState(false)
   const [pwaDone, setPwaDone] = useState(false)
 
@@ -61,38 +59,24 @@ export default function HomeClient({
   }, [])
 
   useEffect(() => {
-    if (!('Notification' in window) || !('serviceWorker' in navigator)) return
-    if (Notification.permission === 'denied' || Notification.permission === 'granted') return
-    fetch('/api/push/subscribe')
-      .then(r => r.json())
-      .then(({ subscribed }) => { if (!subscribed) setShowNotif(true) })
-      .catch(() => {})
-  }, [])
-
-  useEffect(() => {
-    if (localStorage.getItem('pwa_install_dismissed')) return
-    if (window.matchMedia('(display-mode: standalone)').matches) return
     const ua = navigator.userAgent
-    if (!/Android|iPhone|iPad|iPod/i.test(ua)) return
-
     const isIOSDevice = /iPhone|iPad|iPod/i.test(ua)
     const isSafari = /Safari/.test(ua) && !/CriOS|FxiOS|OPiOS/.test(ua)
-    if (isIOSDevice && isSafari) {
-      setIsIOS(true)
-      setShowPwa(true)
-      return
-    }
+    if (isIOSDevice && isSafari) setIsIOS(true)
+
     const handler = (e: Event) => {
       e.preventDefault()
       setDeferredPrompt(e as BeforeInstallPromptEvent)
-      setShowPwa(true)
     }
     window.addEventListener('beforeinstallprompt', handler)
     return () => window.removeEventListener('beforeinstallprompt', handler)
   }, [])
 
   const handleNotif = async () => {
-    if (!('Notification' in window)) return
+    if (!('Notification' in window)) {
+      alert('このブラウザは通知に対応していません')
+      return
+    }
     const permission = await Notification.requestPermission()
     if (permission === 'granted') {
       try {
@@ -110,7 +94,6 @@ export default function HomeClient({
         })
       } catch {}
       setNotifDone(true)
-      setShowNotif(false)
     }
   }
 
@@ -122,10 +105,10 @@ export default function HomeClient({
       const { outcome } = await deferredPrompt.userChoice
       if (outcome === 'accepted') {
         setPwaDone(true)
-        setShowPwa(false)
-        localStorage.setItem('pwa_install_dismissed', '1')
         setDeferredPrompt(null)
       }
+    } else {
+      alert('ブラウザのメニューから「ホーム画面に追加」してください')
     }
   }
 
@@ -271,30 +254,28 @@ export default function HomeClient({
         </div>
 
         {/* PWA / 通知ボタン */}
-        {(showPwa || showNotif) && !pwaDone && (
-          <div className="space-y-2">
-            {showPwa && (
-              <button
-                onClick={handlePwa}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium"
-                style={{ backgroundColor: '#fff', border: '1.5px solid #FAA66B66', color: '#3F342D', boxShadow: '0 1px 6px rgba(63,52,45,0.06)' }}
-              >
-                <span className="text-lg">📱</span>
-                <span>{isIOS ? 'ホーム画面に追加する（共有から）' : 'アプリをホームに追加する'}</span>
-              </button>
-            )}
-            {showNotif && !notifDone && (
-              <button
-                onClick={handleNotif}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium"
-                style={{ backgroundColor: '#fff', border: '1.5px solid #FAA66B66', color: '#3F342D', boxShadow: '0 1px 6px rgba(63,52,45,0.06)' }}
-              >
-                <span className="text-lg">🔔</span>
-                <span>通知を許可する</span>
-              </button>
-            )}
-          </div>
-        )}
+        <div className="space-y-2">
+          {!pwaDone && (
+            <button
+              onClick={handlePwa}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium"
+              style={{ backgroundColor: '#fff', border: '1.5px solid #FAA66B66', color: '#3F342D', boxShadow: '0 1px 6px rgba(63,52,45,0.06)' }}
+            >
+              <span className="text-lg">📱</span>
+              <span>アプリをホームに追加する</span>
+            </button>
+          )}
+          {!notifDone && (
+            <button
+              onClick={handleNotif}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium"
+              style={{ backgroundColor: '#fff', border: '1.5px solid #FAA66B66', color: '#3F342D', boxShadow: '0 1px 6px rgba(63,52,45,0.06)' }}
+            >
+              <span className="text-lg">🔔</span>
+              <span>通知を許可する</span>
+            </button>
+          )}
+        </div>
 
         {/* Streak */}
         {streak > 0 && (
