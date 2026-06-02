@@ -88,6 +88,7 @@ export default function ChatClient({
 
   const scrollRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
   const lastScrollY = useRef(0)
 
   useEffect(() => {
@@ -96,6 +97,21 @@ export default function ChatClient({
       el.scrollTop = el.scrollHeight
     }
   }, [chatMessages])
+
+  // iOSキーボード表示時の位置補正
+  // baseHeightを固定することでSafariツールバー消滅による innerHeight 増加の影響を除外する
+  useEffect(() => {
+    const vv = window.visualViewport
+    if (!vv) return
+    const baseHeight = window.innerHeight
+    const adjust = () => {
+      if (!containerRef.current) return
+      const offset = Math.max(0, baseHeight - vv.height)
+      containerRef.current.style.bottom = `${offset}px`
+    }
+    vv.addEventListener('resize', adjust)
+    return () => vv.removeEventListener('resize', adjust)
+  }, [])
 
   useEffect(() => {
     if (!isLoggedIn) return
@@ -365,10 +381,10 @@ export default function ChatClient({
 
   return (
     <div
+      ref={containerRef}
       style={{
         position: 'fixed',
         inset: 0,
-        height: '100dvh',
         zIndex: 50,
         display: 'flex',
         flexDirection: 'column',
