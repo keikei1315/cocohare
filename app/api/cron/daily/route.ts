@@ -212,6 +212,7 @@ JSONのみ返してください:
     content: `先週のTODO達成率は${achieveRate}%でした🎯\n今週のTODOを5つ用意しました📝\n[週間レポートを見る](/counseling/diary/reports/weekly/${period})`,
     mode: 'counseling',
   })
+  return achieveRate
 }
 
 // ── monthly report ───────────────────────────────────────────────────────────
@@ -382,8 +383,9 @@ export async function GET(request: NextRequest) {
   if (dayOfWeek === 6) {
     const results = await Promise.allSettled(
       users.map(async (user) => {
-        await generateWeeklyForUser(user.id, adminClient)
-        await sendPushToUser(user.id, { title: 'ぽとり', body: '今週のウィークリーレポートができました📊', url: `${SITE_URL}/counseling/diary/reports` }, adminClient)
+        const achieveRate = await generateWeeklyForUser(user.id, adminClient)
+        if (achieveRate === undefined) return
+        await sendPushToUser(user.id, { title: 'ぽとり', body: `先週のTODO達成率は${achieveRate}%でした🎯 今週のTODOと習慣レポートが届いています📊`, url: `${SITE_URL}/counseling/diary/reports` }, adminClient)
       })
     )
     tasks.weeklyReport = {
