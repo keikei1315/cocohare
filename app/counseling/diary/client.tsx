@@ -77,7 +77,7 @@ export default function DiaryClient() {
       const data = await res.json()
       if (data.entry) {
         setEntry({
-          content: data.entry.content ?? '',
+          content: data.entry.content || data.entry.ai_content || '',
           mood_level: data.entry.mood_level ?? null,
           positive_entries: data.entry.positive_entries?.length
             ? [...data.entry.positive_entries, '', '', ''].slice(0, 3)
