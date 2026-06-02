@@ -816,7 +816,10 @@ export default function ChatClient({
             value={input}
             onChange={e => setInput(e.target.value)}
             onFocus={() => setMenuOpen(false)}
-            onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send() } }}
+            onKeyDown={e => {
+                const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+                if (e.key === 'Enter' && !e.shiftKey && !isMobile) { e.preventDefault(); send() }
+              }}
             disabled={loading}
             maxLength={1000}
             placeholder="メッセージを入力..."
