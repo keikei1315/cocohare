@@ -19,15 +19,15 @@ self.addEventListener('push', (event) => {
 
 self.addEventListener('notificationclick', (event) => {
   event.notification.close()
+  const targetUrl = new URL(event.notification.data.url, self.location.origin).href
   event.waitUntil(
     clients.matchAll({ type: 'window', includeUncontrolled: true }).then((list) => {
       for (const client of list) {
         if (client.url.includes(self.location.origin) && 'focus' in client) {
-          client.navigate(event.notification.data.url)
-          return client.focus()
+          return client.navigate(targetUrl).then(c => (c ?? client).focus())
         }
       }
-      return clients.openWindow(event.notification.data.url)
+      return clients.openWindow(targetUrl)
     })
   )
 })
