@@ -52,8 +52,6 @@ export default function DiaryClient() {
   const [saving, setSaving] = useState(false)
   const [sheetOpen, setSheetOpen] = useState(false)
   const [globalMenuOpen, setGlobalMenuOpen] = useState(false)
-  const [generatingFromChat, setGeneratingFromChat] = useState(false)
-  const [fromChatError, setFromChatError] = useState('')
 
   const fetchCalendar = useCallback(async (y: number, m: number) => {
     setLoading(true)
@@ -87,33 +85,9 @@ export default function DiaryClient() {
         })
       } else {
         setEntry({ content: '', mood_level: null, positive_entries: ['', '', ''] })
-        // Auto-generate diary from today's chat when no entry exists
-        if (dateStr === todayStr) {
-          generateFromChat()
-        }
       }
     } finally {
       setEntryLoading(false)
-    }
-  }
-
-  const generateFromChat = async () => {
-    setGeneratingFromChat(true)
-    setFromChatError('')
-    try {
-      const res = await fetch('/api/counseling/diary/from-chat')
-      const data = await res.json()
-      if (data.content) {
-        setEntry(prev => ({ ...prev, content: data.content }))
-      } else if (data.reason === 'no_chat_today') {
-        setFromChatError('今日の会話がまだありません。ぽとりと話してから日記を書いてみてください。')
-      } else {
-        setFromChatError('生成できませんでした。もう一度試してください。')
-      }
-    } catch {
-      setFromChatError('エラーが発生しました。')
-    } finally {
-      setGeneratingFromChat(false)
     }
   }
 
@@ -560,49 +534,25 @@ export default function DiaryClient() {
                     <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#7EAACC', display: 'inline-block' }} />
                     <span style={{ fontSize: '14px', fontWeight: 600, color: '#3F342D' }}>今日の出来事（日記）</span>
                   </div>
-                  {generatingFromChat ? (
-                    <div
-                      style={{
-                        width: '100%',
-                        padding: '20px 12px',
-                        borderRadius: '12px',
-                        border: '1.5px dashed #FAA66B66',
-                        backgroundColor: '#FFF9F5',
-                        fontSize: '13px',
-                        color: '#FAA66B',
-                        textAlign: 'center',
-                        lineHeight: 1.6,
-                        boxSizing: 'border-box',
-                      }}
-                    >
-                      ✦ ぽとりが今日の会話から日記を書いています...
-                    </div>
-                  ) : (
-                    <textarea
-                      value={entry.content}
-                      onChange={e => setEntry(prev => ({ ...prev, content: e.target.value }))}
-                      placeholder="できたこと、しんどかったこと、気づいたことなど。"
-                      rows={4}
-                      style={{
-                        width: '100%',
-                        resize: 'none',
-                        borderRadius: '12px',
-                        padding: '12px',
-                        fontSize: '14px',
-                        outline: 'none',
-                        border: '1.5px solid #E5DDD8',
-                        backgroundColor: '#FAFAF8',
-                        color: '#3F342D',
-                        lineHeight: 1.6,
-                        boxSizing: 'border-box',
-                      }}
-                    />
-                  )}
-                  {fromChatError && (
-                    <p style={{ fontSize: '12px', color: '#F9847A', marginTop: '6px' }}>
-                      {fromChatError}
-                    </p>
-                  )}
+                  <textarea
+                    value={entry.content}
+                    onChange={e => setEntry(prev => ({ ...prev, content: e.target.value }))}
+                    placeholder="できたこと、しんどかったこと、気づいたことなど。"
+                    rows={4}
+                    style={{
+                      width: '100%',
+                      resize: 'none',
+                      borderRadius: '12px',
+                      padding: '12px',
+                      fontSize: '14px',
+                      outline: 'none',
+                      border: '1.5px solid #E5DDD8',
+                      backgroundColor: '#FAFAF8',
+                      color: '#3F342D',
+                      lineHeight: 1.6,
+                      boxSizing: 'border-box',
+                    }}
+                  />
                 </div>
 
                 {/* Positive diary */}
