@@ -8,7 +8,7 @@ export default function LogoutButton() {
       const supabase = createClient()
       await supabase.auth.signOut()
     } finally {
-      window.location.href = '/'
+      window.location.href = 'https://personality.cocohare-life.com/'
     }
   }
 
