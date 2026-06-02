@@ -9,8 +9,8 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://personality.cocoha
 function getWeekStart(date = new Date()) {
   const d = new Date(date)
   const day = d.getDay()
-  const diff = d.getDate() - day + (day === 0 ? -6 : 1)
-  d.setDate(diff)
+  const daysToSaturday = day === 6 ? 0 : day + 1
+  d.setDate(d.getDate() - daysToSaturday)
   return d.toISOString().split('T')[0]
 }
 
