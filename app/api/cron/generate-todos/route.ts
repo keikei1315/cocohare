@@ -72,8 +72,11 @@ export async function GET(request: NextRequest) {
   const { data: { users }, error } = await adminClient.auth.admin.listUsers({ perPage: 1000 })
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
+  const targetUserId = new URL(request.url).searchParams.get('user_id')
+  const targetUsers = targetUserId ? users.filter(u => u.id === targetUserId) : users
+
   const results = await Promise.allSettled(
-    users.map(async (user) => {
+    targetUsers.map(async (user) => {
       await generateForUser(user.id, adminClient)
       await sendPushToUser(user.id, { title: 'ぽとり', body: '今週のTODOを更新しました！チェックしてみてね🐰', url: `${SITE_URL}/counseling/chat` }, adminClient)
     })
