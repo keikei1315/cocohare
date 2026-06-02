@@ -1,5 +1,5 @@
 {
-  "name": "CocoHare（ここはれ）",
+  "name": "ここはれ",
   "short_name": "ここはれ",
   "description": "こころ晴れる毎日を",
   "start_url": "/",
@@ -9,10 +9,28 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "/logo.png",
-      "sizes": "any",
+      "src": "/icon-192.png",
+      "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
