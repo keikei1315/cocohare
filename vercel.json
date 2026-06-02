@@ -6,7 +6,7 @@
     },
     {
       "path": "/api/cron/generate-todos",
-      "schedule": "0 23 * * 5"
+      "schedule": "0 23 * * 6"
     },
     {
       "path": "/api/cron/generate-diaries",
