@@ -809,7 +809,26 @@ export default function ChatClient({
             ref={textareaRef}
             value={input}
             onChange={e => setInput(e.target.value)}
-            onFocus={() => setMenuOpen(false)}
+            onFocus={() => {
+              if (!menuOpen) return
+              const vv = window.visualViewport
+              if (!vv) { setMenuOpen(false); return }
+              // キーボードが開ききった後（resizeが止まってから200ms）にメニューを閉じる
+              let closeTimer: ReturnType<typeof setTimeout>
+              let fallbackTimer: ReturnType<typeof setTimeout>
+              const close = () => {
+                clearTimeout(closeTimer)
+                clearTimeout(fallbackTimer)
+                vv.removeEventListener('resize', onResize)
+                setMenuOpen(false)
+              }
+              const onResize = () => {
+                clearTimeout(closeTimer)
+                closeTimer = setTimeout(close, 200)
+              }
+              vv.addEventListener('resize', onResize)
+              fallbackTimer = setTimeout(close, 700)
+            }}
             onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send() } }}
             disabled={loading}
             maxLength={1000}
