@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
+import GlobalNavDrawer from '@/app/components/GlobalNavDrawer'
 
 const WEEKDAYS = ['日', '月', '火', '水', '木', '金', '土']
 
@@ -50,6 +51,7 @@ export default function DiaryClient() {
   const [entryLoading, setEntryLoading] = useState(false)
   const [saving, setSaving] = useState(false)
   const [sheetOpen, setSheetOpen] = useState(false)
+  const [globalMenuOpen, setGlobalMenuOpen] = useState(false)
   const [generatingFromChat, setGeneratingFromChat] = useState(false)
   const [fromChatError, setFromChatError] = useState('')
 
@@ -179,6 +181,7 @@ export default function DiaryClient() {
         backgroundColor: '#FFF9F5',
       }}
     >
+      <GlobalNavDrawer isOpen={globalMenuOpen} onClose={() => setGlobalMenuOpen(false)} />
       {/* Header */}
       <div
         style={{
@@ -209,19 +212,29 @@ export default function DiaryClient() {
           <div style={{ fontSize: '15px', fontWeight: 600, color: '#3F342D' }}>ぽとりの日記</div>
           <div style={{ fontSize: '11px', color: '#3F342D66' }}>カレンダー</div>
         </div>
-        <button
-          onClick={goToday}
-          style={{
-            fontSize: '12px',
-            fontWeight: 500,
-            color: '#FAA66B',
-            border: '1.5px solid #FAA66B',
-            borderRadius: '20px',
-            padding: '4px 10px',
-          }}
-        >
-          今日
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <button
+            onClick={goToday}
+            style={{
+              fontSize: '12px',
+              fontWeight: 500,
+              color: '#FAA66B',
+              border: '1.5px solid #FAA66B',
+              borderRadius: '20px',
+              padding: '4px 10px',
+            }}
+          >
+            今日
+          </button>
+          <button
+            onClick={() => setGlobalMenuOpen(true)}
+            style={{ padding: '4px', display: 'flex', flexDirection: 'column', gap: '3.5px', alignItems: 'center', justifyContent: 'center' }}
+          >
+            {[0, 1, 2].map(i => (
+              <span key={i} style={{ display: 'block', width: '18px', height: '2px', borderRadius: '2px', backgroundColor: '#3F342D99' }} />
+            ))}
+          </button>
+        </div>
       </div>
 
       {/* Month navigation */}

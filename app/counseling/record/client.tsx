@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
+import GlobalNavDrawer from '@/app/components/GlobalNavDrawer'
 
 type Mood = { id: string; mood_score: number; emotion_labels: string[]; note: string; created_at: string }
 type Diary = { id: string; content: string; ai_content: string; created_at: string }
@@ -27,6 +28,7 @@ export default function RecordClient({
   const showNew = searchParams.get('new') === '1'
 
   const [tab, setTab] = useState<Tab>(tabParam ?? 'mood')
+  const [globalMenuOpen, setGlobalMenuOpen] = useState(false)
   const [moods, setMoods] = useState(initialMoods)
   const [diaries, setDiaries] = useState(initialDiaries)
   const [todos, setTodos] = useState(initialTodos)
@@ -161,9 +163,18 @@ export default function RecordClient({
   return (
     <div style={{ minHeight: 'calc(100vh - 64px)', backgroundColor: '#FFF9F5' }}>
 
+      <GlobalNavDrawer isOpen={globalMenuOpen} onClose={() => setGlobalMenuOpen(false)} />
       {/* Page header */}
-      <div className="px-4 pt-12 pb-2">
+      <div className="px-4 pt-12 pb-2 flex items-center justify-between">
         <h1 className="text-xl font-bold" style={{ color: '#3F342D' }}>きろく</h1>
+        <button
+          onClick={() => setGlobalMenuOpen(true)}
+          style={{ padding: '4px', display: 'flex', flexDirection: 'column', gap: '3.5px', alignItems: 'center', justifyContent: 'center' }}
+        >
+          {[0, 1, 2].map(i => (
+            <span key={i} style={{ display: 'block', width: '18px', height: '2px', borderRadius: '2px', backgroundColor: '#3F342D99' }} />
+          ))}
+        </button>
       </div>
 
       {/* Tabs */}

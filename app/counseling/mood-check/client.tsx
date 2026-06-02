@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import GlobalNavDrawer from '@/app/components/GlobalNavDrawer'
 
 type Mood = '良かった' | '普通' | 'しんどかったけど頑張った' | '悪かった'
 
@@ -31,6 +32,7 @@ export default function MoodCheckClient() {
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [globalMenuOpen, setGlobalMenuOpen] = useState(false)
 
   useEffect(() => {
     setLoading(true)
@@ -86,6 +88,7 @@ export default function MoodCheckClient() {
         backgroundColor: '#FFF9F5',
       }}
     >
+      <GlobalNavDrawer isOpen={globalMenuOpen} onClose={() => setGlobalMenuOpen(false)} />
       {/* Header */}
       <div
         style={{
@@ -110,7 +113,14 @@ export default function MoodCheckClient() {
         <div style={{ flex: 1, textAlign: 'center', fontSize: '15px', fontWeight: 600, color: '#3F342D' }}>
           気分チェック
         </div>
-        <div style={{ width: '28px' }} />
+        <button
+          onClick={() => setGlobalMenuOpen(true)}
+          style={{ padding: '4px', display: 'flex', flexDirection: 'column', gap: '3.5px', alignItems: 'center', justifyContent: 'center', width: '28px' }}
+        >
+          {[0, 1, 2].map(i => (
+            <span key={i} style={{ display: 'block', width: '18px', height: '2px', borderRadius: '2px', backgroundColor: '#3F342D99' }} />
+          ))}
+        </button>
       </div>
 
       {/* Date navigation */}

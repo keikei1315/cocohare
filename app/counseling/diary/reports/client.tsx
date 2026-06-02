@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import GlobalNavDrawer from '@/app/components/GlobalNavDrawer'
 import {
   WeeklyReportContent,
   MonthlyReportContent,
@@ -43,6 +44,7 @@ export default function ReportListClient() {
   const today = new Date()
 
   const [tab, setTab] = useState<Tab>('weekly')
+  const [globalMenuOpen, setGlobalMenuOpen] = useState(false)
   const [reports, setReports] = useState<{ weekly: ReportItem[]; monthly: ReportItem[] }>({
     weekly: [], monthly: [],
   })
@@ -215,6 +217,7 @@ export default function ReportListClient() {
         backgroundColor: '#FFF9F5',
       }}
     >
+      <GlobalNavDrawer isOpen={globalMenuOpen} onClose={() => setGlobalMenuOpen(false)} />
       {/* Header */}
       <div
         style={{
@@ -245,15 +248,25 @@ export default function ReportListClient() {
           <div style={{ fontSize: '15px', fontWeight: 600, color: '#3F342D' }}>ぽとりの日記</div>
           <div style={{ fontSize: '11px', color: '#3F342D66' }}>分析レポート</div>
         </div>
-        <button
-          onClick={() => { setFilterYear(today.getFullYear()); setFilterMonth(today.getMonth() + 1) }}
-          style={{
-            fontSize: '12px', fontWeight: 500, color: '#FAA66B',
-            border: '1.5px solid #FAA66B', borderRadius: '20px', padding: '4px 10px',
-          }}
-        >
-          今日
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <button
+            onClick={() => { setFilterYear(today.getFullYear()); setFilterMonth(today.getMonth() + 1) }}
+            style={{
+              fontSize: '12px', fontWeight: 500, color: '#FAA66B',
+              border: '1.5px solid #FAA66B', borderRadius: '20px', padding: '4px 10px',
+            }}
+          >
+            今日
+          </button>
+          <button
+            onClick={() => setGlobalMenuOpen(true)}
+            style={{ padding: '4px', display: 'flex', flexDirection: 'column', gap: '3.5px', alignItems: 'center', justifyContent: 'center' }}
+          >
+            {[0, 1, 2].map(i => (
+              <span key={i} style={{ display: 'block', width: '18px', height: '2px', borderRadius: '2px', backgroundColor: '#3F342D99' }} />
+            ))}
+          </button>
+        </div>
       </div>
 
       {/* Tab selector */}

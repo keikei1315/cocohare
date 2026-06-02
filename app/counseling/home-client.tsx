@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import GlobalNavDrawer from '@/app/components/GlobalNavDrawer'
 
 type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>
@@ -45,6 +46,7 @@ export default function HomeClient({
   const [selectedMood, setSelectedMood] = useState<number | null>(null)
   const [moodDone, setMoodDone] = useState(false)
   const [generatingTodos, setGeneratingTodos] = useState(false)
+  const [globalMenuOpen, setGlobalMenuOpen] = useState(false)
   const [isIOS, setIsIOS] = useState(false)
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null)
   const [notifDone, setNotifDone] = useState(false)
@@ -158,6 +160,7 @@ export default function HomeClient({
 
   return (
     <div className="min-h-full pb-4" style={{ backgroundColor: '#FFF9F5' }}>
+      <GlobalNavDrawer isOpen={globalMenuOpen} onClose={() => setGlobalMenuOpen(false)} />
 
       {/* Header */}
       <div className="flex items-center justify-between px-4 pt-12 pb-3">
@@ -169,7 +172,17 @@ export default function HomeClient({
             {HOUR_GREETING()}
           </h1>
         </div>
-        <Image src="/potori/humming.png" alt="ぽとり" width={44} height={44} className="object-contain" />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <Image src="/potori/humming.png" alt="ぽとり" width={44} height={44} className="object-contain" />
+          <button
+            onClick={() => setGlobalMenuOpen(true)}
+            style={{ padding: '4px', display: 'flex', flexDirection: 'column', gap: '3.5px', alignItems: 'center', justifyContent: 'center' }}
+          >
+            {[0, 1, 2].map(i => (
+              <span key={i} style={{ display: 'block', width: '18px', height: '2px', borderRadius: '2px', backgroundColor: '#3F342D99' }} />
+            ))}
+          </button>
+        </div>
       </div>
 
       <div className="px-4 space-y-4">
