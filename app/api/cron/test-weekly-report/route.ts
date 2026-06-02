@@ -184,7 +184,7 @@ JSONのみ返してください:
   await sendPushToUser(userId, {
     title: 'ぽとり',
     body: `先週のTODO達成率は${achieveRate}%でした🎯 今週のTODOと週間レポートが届いています📊`,
-    url: `${SITE_URL}/counseling/diary/reports`,
+    url: `${SITE_URL}/counseling/chat`,
   }, adminClient)
 
   return NextResponse.json({ ok: true, period, achieveRate, todoWeekStart, newTodoWeekStart })
