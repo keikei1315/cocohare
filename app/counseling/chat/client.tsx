@@ -99,18 +99,22 @@ export default function ChatClient({
   }, [chatMessages])
 
   // iOSキーボード表示時の位置補正
-  // baseHeightを固定することでSafariツールバー消滅による innerHeight 増加の影響を除外する
+  // コンテナのheight/topをvisualViewport実測値に直接合わせることでズレをなくす
   useEffect(() => {
     const vv = window.visualViewport
     if (!vv) return
-    const baseHeight = window.innerHeight
     const adjust = () => {
       if (!containerRef.current) return
-      const offset = Math.max(0, baseHeight - vv.height)
-      containerRef.current.style.bottom = `${offset}px`
+      containerRef.current.style.height = `${vv.height}px`
+      containerRef.current.style.top = `${vv.offsetTop}px`
     }
+    adjust()
     vv.addEventListener('resize', adjust)
-    return () => vv.removeEventListener('resize', adjust)
+    vv.addEventListener('scroll', adjust)
+    return () => {
+      vv.removeEventListener('resize', adjust)
+      vv.removeEventListener('scroll', adjust)
+    }
   }, [])
 
   useEffect(() => {
@@ -384,7 +388,10 @@ export default function ChatClient({
       ref={containerRef}
       style={{
         position: 'fixed',
-        inset: 0,
+        top: 0,
+        left: 0,
+        right: 0,
+        height: '100svh',
         zIndex: 50,
         display: 'flex',
         flexDirection: 'column',
