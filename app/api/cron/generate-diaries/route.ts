@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { openai } from '@/lib/openai'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 import { createAdminClient } from '@/lib/supabase/admin'
+
+const genAI = new GoogleGenerativeAI((process.env.GEMINI_API_KEY ?? '').replace(/^﻿/, ''))
 
 
 // 実行時刻: 15:00 UTC = 00:00 JST
@@ -55,11 +57,8 @@ async function generateDiaryForUser(userId: string, adminClient: ReturnType<type
     .map((m: { role: string; content: string }) => `${m.role === 'user' ? 'あなた' : 'ぽとり'}：${m.content}`)
     .join('\n')
 
-  const completion = await openai.chat.completions.create({
-    model: 'gpt-5-mini',
-    messages: [{
-      role: 'user',
-      content: `あなたはCocoHareのAIカウンセラー「ぽとり」です。
+  const model = genAI.getGenerativeModel({ model: 'gemini-3.1-flash-lite' })
+  const result = await model.generateContent(`あなたはCocoHareのAIカウンセラー「ぽとり」です。
 ${dateStr}のぽとりとの会話をもとに、日記を生成してください。
 
 ${typeName ? `ユーザーの性格タイプ：${typeName}` : ''}
@@ -73,11 +72,9 @@ ${conversationText}
 - 100〜200文字
 - 自然な日記調
 
-日記本文のみ返してください。`,
-    }],
-  })
+日記本文のみ返してください。`)
 
-  const aiContent = completion.choices[0].message.content?.trim() ?? ''
+  const aiContent = result.response.text().trim()
   if (!aiContent) return
 
   await adminClient.from('diary_entries').insert({
