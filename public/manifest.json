@@ -1,10 +1,10 @@
 {
-  "name": "ここはれ",
-  "short_name": "ここはれ",
+  "name": "ココハレ",
+  "short_name": "ココハレ",
   "description": "こころ晴れる毎日を",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FFF9F5",
+  "background_color": "#FFFFFF",
   "theme_color": "#FAA66B",
   "orientation": "portrait",
   "icons": [
