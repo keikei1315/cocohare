@@ -4,9 +4,12 @@ import { createClient } from '@/lib/supabase/client'
 
 export default function LogoutButton() {
   async function handleLogout() {
-    const supabase = createClient()
-    await supabase.auth.signOut()
-    window.location.href = '/'
+    try {
+      const supabase = createClient()
+      await supabase.auth.signOut()
+    } finally {
+      window.location.href = '/'
+    }
   }
 
   return (
