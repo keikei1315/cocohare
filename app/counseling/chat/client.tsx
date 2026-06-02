@@ -396,6 +396,7 @@ export default function ChatClient({
         display: 'flex',
         flexDirection: 'column',
         backgroundColor: '#F7F2ED',
+        transition: 'height 0.25s ease, top 0.25s ease',
       }}
     >
       <GlobalNavDrawer isOpen={globalMenuOpen} onClose={() => setGlobalMenuOpen(false)} />
