@@ -23,14 +23,14 @@ function getYesterdayJSTBounds() {
 async function generateDiaryForUser(userId: string, adminClient: ReturnType<typeof createAdminClient>) {
   const { start, end, noon, dateStr } = getYesterdayJSTBounds()
 
-  // 既に当日の日記があればスキップ
+  // ai_contentが既に入っていればスキップ（生成済み）
   const { data: existing } = await adminClient
     .from('diary_entries')
-    .select('id')
+    .select('id, ai_content')
     .eq('user_id', userId)
     .eq('diary_date', dateStr)
     .maybeSingle()
-  if (existing) return
+  if (existing?.ai_content) return
 
   // 昨日の会話を取得
   const { data: messages } = await adminClient
@@ -76,13 +76,21 @@ ${conversationText}
   const aiContent = result.response.text().trim()
   if (!aiContent) return
 
-  await adminClient.from('diary_entries').insert({
-    user_id: userId,
-    diary_date: dateStr,
-    content: '',
-    ai_content: aiContent,
-    created_at: noon,
-  })
+  if (existing) {
+    // エントリはあるがai_contentが空 → ai_contentだけ追加（mood_levelなど既存データ保持）
+    await adminClient
+      .from('diary_entries')
+      .update({ ai_content: aiContent })
+      .eq('id', existing.id)
+  } else {
+    await adminClient.from('diary_entries').insert({
+      user_id: userId,
+      diary_date: dateStr,
+      content: '',
+      ai_content: aiContent,
+      created_at: noon,
+    })
+  }
 }
 
 export async function GET(request: NextRequest) {
