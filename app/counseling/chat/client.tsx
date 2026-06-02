@@ -583,10 +583,12 @@ export default function ChatClient({
                       />
                     ) : (
                       <span
+                        onClick={() => toggleTodo(todo.id)}
                         style={{
                           flex: 1, fontSize: '12px', lineHeight: 1.5,
                           color: todo.completed ? '#3F342D55' : '#3F342D',
                           textDecoration: todo.completed ? 'line-through' : 'none',
+                          cursor: 'pointer',
                         }}
                       >
                         {todo.content}
