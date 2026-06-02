@@ -3,6 +3,8 @@ import { openai } from '@/lib/openai'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendPushToUser, sendPushToAll } from '@/lib/push'
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://personality.cocohare-life.com'
+
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
@@ -334,7 +336,7 @@ export async function GET(request: NextRequest) {
 
   // Always: mood check notification + insert mood check message for each user
   await sendPushToAll(
-    { title: 'ぽとり', body: '今日の気分はどうでしたか？記録してみましょう🌙', url: '/counseling/chat' },
+    { title: 'ぽとり', body: '今日の気分はどうでしたか？記録してみましょう🌙', url: `${SITE_URL}/counseling/chat` },
     adminClient
   )
 
@@ -383,7 +385,7 @@ export async function GET(request: NextRequest) {
     const results = await Promise.allSettled(
       users.map(async (user) => {
         await generateTodosForUser(user.id, adminClient)
-        await sendPushToUser(user.id, { title: 'ぽとり', body: '今週のTODOを更新しました！チェックしてみてね🐰', url: '/counseling/chat' }, adminClient)
+        await sendPushToUser(user.id, { title: 'ぽとり', body: '今週のTODOを更新しました！チェックしてみてね🐰', url: `${SITE_URL}/counseling/chat` }, adminClient)
       })
     )
     tasks.todos = {
@@ -397,7 +399,7 @@ export async function GET(request: NextRequest) {
     const results = await Promise.allSettled(
       users.map(async (user) => {
         await generateWeeklyForUser(user.id, adminClient)
-        await sendPushToUser(user.id, { title: 'ぽとり', body: '今週のウィークリーレポートができました📊', url: '/counseling/diary/reports' }, adminClient)
+        await sendPushToUser(user.id, { title: 'ぽとり', body: '今週のウィークリーレポートができました📊', url: `${SITE_URL}/counseling/diary/reports` }, adminClient)
       })
     )
     tasks.weeklyReport = {
@@ -411,7 +413,7 @@ export async function GET(request: NextRequest) {
     const results = await Promise.allSettled(
       users.map(async (user) => {
         await generateMonthlyForUser(user.id, adminClient)
-        await sendPushToUser(user.id, { title: 'ぽとり', body: '先月の月間レポートができました🌸', url: '/counseling/diary/reports' }, adminClient)
+        await sendPushToUser(user.id, { title: 'ぽとり', body: '先月の月間レポートができました🌸', url: `${SITE_URL}/counseling/diary/reports` }, adminClient)
       })
     )
     tasks.monthlyReport = {
