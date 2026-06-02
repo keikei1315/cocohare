@@ -3,12 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
 import ChatClient from './client'
 
-export default async function CounselingChatPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ test_mood?: string }>
-}) {
-  const params = await searchParams
+export default async function CounselingChatPage() {
   const serverClient = await createClient()
   const { data: { user } } = await serverClient.auth.getUser()
 
@@ -23,7 +18,6 @@ export default async function CounselingChatPage({
           isSubscribed={false}
           plan={null}
           hasHighTicket={false}
-          showMoodCheck={false}
         />
       </Suspense>
     )
@@ -79,20 +73,6 @@ export default async function CounselingChatPage({
   const plan = (user?.user_metadata?.plan as string) ?? null
   const hasHighTicket = !!htDiag
 
-  const nowUtc = new Date()
-  const jstHour = (nowUtc.getUTCHours() + 9) % 24
-  const todayJST = new Date(nowUtc.getTime() + 9 * 60 * 60 * 1000).toISOString().split('T')[0]
-  let showMoodCheck = false
-  if (jstHour >= 20 || params.test_mood === '1') {
-    const { data: todayMood } = await adminClient
-      .from('diary_entries')
-      .select('mood_level')
-      .eq('user_id', user.id)
-      .eq('diary_date', todayJST)
-      .maybeSingle()
-    showMoodCheck = !todayMood?.mood_level
-  }
-
   return (
     <Suspense>
       <ChatClient
@@ -102,7 +82,6 @@ export default async function CounselingChatPage({
         isSubscribed={isSubscribed}
         plan={plan}
         hasHighTicket={hasHighTicket}
-        showMoodCheck={showMoodCheck}
       />
     </Suspense>
   )

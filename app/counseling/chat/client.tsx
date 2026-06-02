@@ -47,7 +47,6 @@ export default function ChatClient({
   isSubscribed,
   plan,
   hasHighTicket,
-  showMoodCheck,
 }: {
   initialMessages: Message[]
   hasDiagnosis: boolean
@@ -55,7 +54,6 @@ export default function ChatClient({
   isSubscribed: boolean
   plan: string | null
   hasHighTicket: boolean
-  showMoodCheck: boolean
 }) {
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -129,20 +127,6 @@ export default function ChatClient({
       .catch(() => {})
   }, [isLoggedIn])
 
-  useEffect(() => {
-    if (!showMoodCheck) return
-    setChatMessages(prev => {
-      if (prev.some(m => m.isMoodCheck)) return prev
-      const todayJST = new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString().split('T')[0]
-      return [...prev, {
-        role: 'assistant' as const,
-        content: '今日もお疲れ様でした🌙\n今日の気分はどうでしたか？',
-        mode: 'counseling' as Mode,
-        isMoodCheck: true,
-        moodDate: todayJST,
-      }]
-    })
-  }, [showMoodCheck])
 
   const handleScroll = useCallback(() => {
     if (!scrollRef.current) return

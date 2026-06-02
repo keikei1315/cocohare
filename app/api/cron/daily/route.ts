@@ -332,12 +332,51 @@ export async function GET(request: NextRequest) {
 
   const tasks: Record<string, { succeeded: number; failed: number }> = {}
 
-  // Always: mood check notification
+  // Always: mood check notification + insert mood check message for each user
   await sendPushToAll(
     { title: 'ぽとり', body: '今日の気分はどうでしたか？記録してみましょう🌙', url: '/counseling/chat' },
     adminClient
   )
-  tasks.moodNotification = { succeeded: 1, failed: 0 }
+
+  const todayJST = jst.toISOString().split('T')[0]
+  const [y, m, d] = todayJST.split('-').map(Number)
+  const todayStartUTC = new Date(Date.UTC(y, m - 1, d) - 9 * 60 * 60 * 1000).toISOString()
+  const todayEndUTC = new Date(Date.UTC(y, m - 1, d, 23, 59, 59, 999) - 9 * 60 * 60 * 1000).toISOString()
+
+  const moodResults = await Promise.allSettled(
+    users.map(async (user) => {
+      // 今日すでに送信済みならスキップ
+      const { data: existingCheck } = await adminClient
+        .from('counseling_messages')
+        .select('id')
+        .eq('user_id', user.id)
+        .eq('mode', 'mood_check')
+        .gte('created_at', todayStartUTC)
+        .lte('created_at', todayEndUTC)
+        .maybeSingle()
+      if (existingCheck) return
+
+      // 今日すでに気分記録済みならスキップ
+      const { data: todayMood } = await adminClient
+        .from('diary_entries')
+        .select('mood_level')
+        .eq('user_id', user.id)
+        .eq('diary_date', todayJST)
+        .maybeSingle()
+      if (todayMood?.mood_level) return
+
+      await adminClient.from('counseling_messages').insert({
+        user_id: user.id,
+        role: 'assistant',
+        content: '今日もお疲れ様でした🌙\n今日の気分はどうでしたか？',
+        mode: 'mood_check',
+      })
+    })
+  )
+  tasks.moodNotification = {
+    succeeded: moodResults.filter(r => r.status === 'fulfilled').length,
+    failed: moodResults.filter(r => r.status === 'rejected').length,
+  }
 
   // Sunday (JST): generate todos + notify
   if (dayOfWeek === 0) {
