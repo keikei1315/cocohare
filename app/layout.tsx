@@ -44,6 +44,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja" className={`${notoSansJP.variable} h-full`}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `
+          window.addEventListener('beforeinstallprompt', function(e) {
+            e.preventDefault();
+            window.__pwaPrompt = e;
+            window.dispatchEvent(new Event('pwapromptready'));
+          });
+        ` }} />
+      </head>
       <body className="min-h-full flex flex-col font-sans" style={{ backgroundColor: '#FFF9F5' }}>
         <Header />
         {children}

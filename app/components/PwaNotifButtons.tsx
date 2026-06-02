@@ -7,6 +7,12 @@ type BeforeInstallPromptEvent = Event & {
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>
 }
 
+declare global {
+  interface Window {
+    __pwaPrompt?: BeforeInstallPromptEvent
+  }
+}
+
 function urlBase64ToUint8Array(base64String: string) {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
   const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/')
@@ -38,8 +44,10 @@ const IconShare = () => (
 
 export default function PwaNotifButtons() {
   const [isIOS, setIsIOS] = useState(false)
+  const [isAndroid, setIsAndroid] = useState(false)
+  const [isAndroidChrome, setIsAndroidChrome] = useState(false)
   const [isStandalone, setIsStandalone] = useState(false)
-  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null)
+  const [promptReady, setPromptReady] = useState(false)
   const [pwaDone, setPwaDone] = useState(false)
   const [notifDone, setNotifDone] = useState(false)
   const [showIOSGuide, setShowIOSGuide] = useState(false)
@@ -47,29 +55,37 @@ export default function PwaNotifButtons() {
   useEffect(() => {
     const ua = navigator.userAgent
     const ios = /iPhone|iPad|iPod/i.test(ua) && /Safari/.test(ua) && !/CriOS|FxiOS|OPiOS/.test(ua)
+    const android = /Android/i.test(ua)
+    const androidChrome = android && /Chrome\//.test(ua) && !/SamsungBrowser|EdgA|OPR|Firefox/.test(ua)
+
     setIsIOS(ios)
+    setIsAndroid(android)
+    setIsAndroidChrome(androidChrome)
     setIsStandalone(window.matchMedia('(display-mode: standalone)').matches)
 
-    const handler = (e: Event) => {
-      e.preventDefault()
-      setDeferredPrompt(e as BeforeInstallPromptEvent)
-    }
-    window.addEventListener('beforeinstallprompt', handler)
-    return () => window.removeEventListener('beforeinstallprompt', handler)
+    if (window.__pwaPrompt) setPromptReady(true)
+
+    const handler = () => setPromptReady(true)
+    window.addEventListener('pwapromptready', handler)
+    return () => window.removeEventListener('pwapromptready', handler)
   }, [])
 
   const handlePwa = async () => {
     if (isIOS) {
       setShowIOSGuide(true)
-    } else if (deferredPrompt) {
-      await deferredPrompt.prompt()
-      const { outcome } = await deferredPrompt.userChoice
+    } else if (isAndroid && !isAndroidChrome) {
+      const url = window.location.href
+      window.location.href = `intent://${url.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=${encodeURIComponent(url)};end`
+    } else if (window.__pwaPrompt) {
+      await window.__pwaPrompt.prompt()
+      const { outcome } = await window.__pwaPrompt.userChoice
       if (outcome === 'accepted') {
         setPwaDone(true)
-        setDeferredPrompt(null)
+        window.__pwaPrompt = undefined
+        setPromptReady(false)
       }
     } else {
-      alert('ブラウザのメニューから「ホーム画面に追加」してください')
+      alert('Chromeのメニュー（⋮）から「ホーム画面に追加」を選んでください')
     }
   }
 
@@ -94,38 +110,57 @@ export default function PwaNotifButtons() {
     }
   }
 
+  const isNonChromeAndroid = isAndroid && !isAndroidChrome
   const showNotifButton = !notifDone && (!isIOS || isStandalone)
+
+  const pwaButtonLabel = isNonChromeAndroid
+    ? 'Chromeで開いて追加する'
+    : 'ホーム画面に追加する'
+  const pwaButtonSub = isNonChromeAndroid
+    ? null
+    : isIOS
+      ? 'アプリのように使えます'
+      : promptReady
+        ? 'ワンタップでインストール'
+        : 'ホーム画面に追加する'
 
   return (
     <>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 16 }}>
         {!pwaDone && (
-          <button
-            onClick={handlePwa}
-            style={{
-              width: '100%', display: 'flex', alignItems: 'center', gap: 14,
-              padding: '14px 18px', borderRadius: 16, textAlign: 'left',
-              background: 'linear-gradient(135deg, #FAA66B, #F9847A)',
-              boxShadow: '0 4px 14px rgba(250,166,107,0.4)',
-              color: '#fff', border: 'none', cursor: 'pointer',
-            }}
-          >
-            <span style={{
-              width: 42, height: 42, borderRadius: 12, backgroundColor: 'rgba(255,255,255,0.2)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-            }}>
-              <IconPhone />
-            </span>
-            <div style={{ flex: 1 }}>
-              <p style={{ fontSize: 14, fontWeight: 700, marginBottom: 2 }}>ホーム画面に追加する</p>
-              <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.75)' }}>
-                {isIOS ? 'アプリのように使えます' : 'ワンタップでインストール'}
+          <>
+            <button
+              onClick={handlePwa}
+              style={{
+                width: '100%', display: 'flex', alignItems: 'center', gap: 14,
+                padding: '14px 18px', borderRadius: 16, textAlign: 'left',
+                background: 'linear-gradient(135deg, #FAA66B, #F9847A)',
+                boxShadow: '0 4px 14px rgba(250,166,107,0.4)',
+                color: '#fff', border: 'none', cursor: 'pointer',
+              }}
+            >
+              <span style={{
+                width: 42, height: 42, borderRadius: 12, backgroundColor: 'rgba(255,255,255,0.2)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+              }}>
+                <IconPhone />
+              </span>
+              <div style={{ flex: 1 }}>
+                <p style={{ fontSize: 14, fontWeight: 700, marginBottom: 2 }}>{pwaButtonLabel}</p>
+                {pwaButtonSub && (
+                  <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.75)' }}>{pwaButtonSub}</p>
+                )}
+              </div>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M6 4l4 4-4 4" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+            {isNonChromeAndroid && (
+              <p style={{ fontSize: 11, textAlign: 'center', color: '#3F342D66', marginTop: -4 }}>
+                ホームに追加するにはChromeでサイトを開く必要があります。
               </p>
-            </div>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M6 4l4 4-4 4" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
+            )}
+          </>
         )}
 
         {showNotifButton && (
@@ -168,10 +203,7 @@ export default function PwaNotifButtons() {
           onClick={() => setShowIOSGuide(false)}
           style={{ position: 'fixed', inset: 0, zIndex: 200 }}
         >
-          {/* 上部ブラックアウト */}
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.75)' }} />
-
-          {/* 説明バナー（画面最下部、セーフエリア対応） */}
           <div
             onClick={e => e.stopPropagation()}
             style={{
