@@ -399,7 +399,7 @@ export async function GET(request: NextRequest) {
     const results = await Promise.allSettled(
       users.map(async (user) => {
         await generateMonthlyForUser(user.id, adminClient)
-        await sendPushToUser(user.id, { title: 'ぽとり', body: '先月の月間レポートができました🌸', url: `${SITE_URL}/counseling/diary/reports` }, adminClient)
+        await sendPushToUser(user.id, { title: 'ぽとり', body: '先月の月間レポートができました🌸', url: `${SITE_URL}/counseling/chat` }, adminClient)
       })
     )
     tasks.monthlyReport = {
