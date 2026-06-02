@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { openai } from '@/lib/openai'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { sendPushToUser } from '@/lib/push'
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://personality.cocohare-life.com'
 
 
 function getWeekStart(date = new Date()) {
@@ -70,7 +73,10 @@ export async function GET(request: NextRequest) {
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
   const results = await Promise.allSettled(
-    users.map(user => generateForUser(user.id, adminClient))
+    users.map(async (user) => {
+      await generateForUser(user.id, adminClient)
+      await sendPushToUser(user.id, { title: 'ぽとり', body: '今週のTODOを更新しました！チェックしてみてね🐰', url: `${SITE_URL}/counseling/chat` }, adminClient)
+    })
   )
 
   const succeeded = results.filter(r => r.status === 'fulfilled').length

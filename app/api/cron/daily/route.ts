@@ -64,37 +64,6 @@ async function getUserTypeName(userId: string, adminClient: ReturnType<typeof cr
   return (rep?.content as { typeName?: string })?.typeName ?? ''
 }
 
-// ── todo generation ──────────────────────────────────────────────────────────
-
-async function generateTodosForUser(userId: string, adminClient: ReturnType<typeof createAdminClient>) {
-  const weekStart = getWeekStart()
-  const typeName = await getUserTypeName(userId, adminClient)
-
-  const [{ data: moods }, { data: diaries }] = await Promise.all([
-    adminClient.from('mood_records').select('mood_score').eq('user_id', userId).order('created_at', { ascending: false }).limit(5),
-    adminClient.from('diary_entries').select('content').eq('user_id', userId).order('created_at', { ascending: false }).limit(5),
-  ])
-
-  const moodContext = moods?.length ? `最近の気分スコア: ${moods.map((m: { mood_score: number }) => m.mood_score).join(', ')}（5段階）` : ''
-  const diaryContext = diaries?.length ? `最近の日記:\n${diaries.map((d: { content: string }) => `- ${d.content.slice(0, 80)}`).join('\n')}` : ''
-
-  const completion = await openai.chat.completions.create({
-    model: 'gpt-4o-mini',
-    messages: [{ role: 'user', content: `あなたはCocoHareのAIカウンセラー「ぽとり」です。ユーザーの今週のTODOを5つ生成してください。\n${typeName ? `ユーザーの性格タイプ：${typeName}` : ''}\n${moodContext}\n${diaryContext}\n条件：心の健康・自分を大切にするための小さな行動。達成しやすく具体的。1つ15〜30文字。優しいトーン。\nJSON形式: {"todos": ["内容1","内容2","内容3","内容4","内容5"]}` }],
-    max_tokens: 600,
-    response_format: { type: 'json_object' },
-  })
-
-  const parsed = JSON.parse(completion.choices[0].message.content ?? '{"todos":[]}')
-  const todoContents: string[] = parsed.todos ?? []
-
-  await adminClient.from('jibunn_todos').delete().eq('user_id', userId).eq('week_start', weekStart)
-  if (todoContents.length > 0) {
-    await adminClient.from('jibunn_todos').insert(
-      todoContents.map((content, i) => ({ user_id: userId, content, week_start: weekStart, completed: false, sort_order: i + 1 }))
-    )
-  }
-}
 
 const MOOD_SCORE: Record<string, number> = {
   '良かった': 5, '普通': 3, 'しんどかったけど頑張った': 2, '悪かった': 1,
@@ -378,20 +347,6 @@ export async function GET(request: NextRequest) {
   tasks.moodNotification = {
     succeeded: moodResults.filter(r => r.status === 'fulfilled').length,
     failed: moodResults.filter(r => r.status === 'rejected').length,
-  }
-
-  // Sunday (JST): generate todos + notify
-  if (dayOfWeek === 0) {
-    const results = await Promise.allSettled(
-      users.map(async (user) => {
-        await generateTodosForUser(user.id, adminClient)
-        await sendPushToUser(user.id, { title: 'ぽとり', body: '今週のTODOを更新しました！チェックしてみてね🐰', url: `${SITE_URL}/counseling/chat` }, adminClient)
-      })
-    )
-    tasks.todos = {
-      succeeded: results.filter(r => r.status === 'fulfilled').length,
-      failed: results.filter(r => r.status === 'rejected').length,
-    }
   }
 
   // Saturday (JST): generate weekly reports + notify
