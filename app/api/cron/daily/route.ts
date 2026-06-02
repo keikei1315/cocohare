@@ -345,16 +345,16 @@ export async function GET(request: NextRequest) {
 
   const moodResults = await Promise.allSettled(
     users.map(async (user) => {
-      // 今日すでに送信済みならスキップ
-      const { data: existingCheck } = await adminClient
+      // 今日すでに送信済みならスキップ（limit(1)でmaybeSingle重複バグを回避）
+      const { data: existingChecks } = await adminClient
         .from('counseling_messages')
         .select('id')
         .eq('user_id', user.id)
         .eq('mode', 'mood_check')
         .gte('created_at', todayStartUTC)
         .lte('created_at', todayEndUTC)
-        .maybeSingle()
-      if (existingCheck) return
+        .limit(1)
+      if (existingChecks && existingChecks.length > 0) return
 
       // 今日すでに気分記録済みならスキップ
       const { data: todayMood } = await adminClient
