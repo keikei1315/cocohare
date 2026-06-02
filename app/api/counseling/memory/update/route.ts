@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import OpenAI from 'openai'
+import { openai } from '@/lib/openai'
 import { createAdminClient } from '@/lib/supabase/admin'
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
 
 type ProfileFact = { fact: string; expires_at: string }
 type SessionSummary = { date: string; summary: string }

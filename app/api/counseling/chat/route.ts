@@ -6,7 +6,7 @@ import { isSubscribed } from '@/lib/plan'
 
 export const maxDuration = 60
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
+const genAI = new GoogleGenerativeAI((process.env.GEMINI_API_KEY ?? '').replace(/^﻿/, ''))
 
 type FreeReport = {
   typeName?: string; axis1Name?: string; axis2Name?: string; tagline?: string

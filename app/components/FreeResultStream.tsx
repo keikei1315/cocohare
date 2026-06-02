@@ -32,6 +32,7 @@ interface Props {
   diagnosisId: string
   metadata: Metadata
   initialData?: Partial<ContentFields>
+  showOtherCta?: boolean
 }
 
 function ScoreBar({ label, pct, dominant }: { label: string; pct: number; dominant: boolean }) {
@@ -72,7 +73,7 @@ function Skeleton({ generating }: { generating?: boolean }) {
   )
 }
 
-export default function FreeResultStream({ diagnosisId, metadata, initialData }: Props) {
+export default function FreeResultStream({ diagnosisId, metadata, initialData, showOtherCta }: Props) {
   const [fields, setFields] = useState<Partial<ContentFields>>(initialData ?? {})
   const [streaming, setStreaming] = useState(!initialData?.message)
   const retries = useRef(0)
@@ -184,6 +185,23 @@ export default function FreeResultStream({ diagnosisId, metadata, initialData }:
           </div>
         </div>
       ) : <Skeleton generating={generatingSection === 'aru_aru'} />}
+
+      {/* 他者診断CTA */}
+      {showOtherCta && (
+        <a
+          href={`/diagnosis/other?diagnosisId=${diagnosisId}`}
+          className="block rounded-2xl p-4 text-center"
+          style={{ backgroundColor: '#F5F0EC', textDecoration: 'none' }}
+        >
+          <p className="text-xs font-medium mb-1" style={{ color: '#3F342D' }}>他者から見たあなたを知ろう</p>
+          <p className="text-xs leading-relaxed mb-3" style={{ color: '#3F342D66' }}>
+            友人や家族に診断してもらうと、自分では気づけない<br />あなたの強みや盲点が見えてきます。
+          </p>
+          <span className="inline-block px-4 py-2 rounded-full text-xs font-medium" style={{ backgroundColor: '#FAA66B', color: '#fff' }}>
+            他者診断を依頼する
+          </span>
+        </a>
+      )}
 
       {/* 4. 強み */}
       {fields.strengths ? (

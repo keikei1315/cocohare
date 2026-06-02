@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import OpenAI from 'openai'
+import { openai } from '@/lib/openai'
 import { createAdminClient } from '@/lib/supabase/admin'
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
 
 // 実行時刻: 15:00 UTC = 00:00 JST
 // 「昨日JST」の UTC 範囲を返す

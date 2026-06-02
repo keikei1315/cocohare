@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import OpenAI from 'openai'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
 import { isTakePlan } from '@/lib/plan'
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+const genAI = new GoogleGenerativeAI((process.env.GEMINI_API_KEY ?? '').replace(/^﻿/, ''))
+
 
 const POTORI_MOOD_THEMES = [
   'パン', 'トースト', 'ふとん', '枕', 'プリン', 'ヨーグルト', 'みそ汁', 'おにぎり', 'バナナ', 'りんご',
@@ -99,11 +100,8 @@ export async function POST(request: NextRequest) {
 
   const randomTheme = POTORI_MOOD_THEMES[Math.floor(Math.random() * POTORI_MOOD_THEMES.length)]
 
-  const completion = await openai.chat.completions.create({
-    model: 'gpt-5-mini',
-    messages: [{
-      role: 'user',
-      content: `あなたはCocoHareのAIカウンセラー「ぽとり」です。
+  const model = genAI.getGenerativeModel({ model: 'gemini-3.1-flash-lite' })
+  const result = await model.generateContent(`あなたはCocoHareのAIカウンセラー「ぽとり」です。
 ぽとりはポジティブで、哲学的で、詩的で、意味不明で、ぶっとんでて笑える、優しいカウンセラーのような鳥の存在です。
 
 今日のテーマ：「${randomTheme}」
@@ -122,11 +120,9 @@ ${typeName ? `ユーザーの性格タイプ：${typeName}` : ''}
 - 絵文字は0〜1個（🍀✨🌿😌など、やわらかいもの）
 - 説教・アドバイス・「記録しました」などのシステム的な言葉は不要
 - 深いようで深くない、笑えるようで温かい、ぽとりらしい返答で
-- 日本語のみ`,
-    }],
-  })
+- 日本語のみ`)
 
-  const aiMessage = completion.choices[0].message.content?.trim() ?? '今日もお疲れ様でした。'
+  const aiMessage = result.response.text().trim() || '今日もお疲れ様でした。'
 
   // 初回：今日の場合のみチャット履歴に保存（質問・回答・返答の3件）
   // mode: 'mood_check' を質問メッセージにつけることで履歴から識別可能にする

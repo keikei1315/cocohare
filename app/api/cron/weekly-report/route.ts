@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import OpenAI from 'openai'
+import { openai } from '@/lib/openai'
 import { createAdminClient } from '@/lib/supabase/admin'
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
 
 function getWeekPeriod(date = new Date()) {
   const d = new Date(date)

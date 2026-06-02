@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server'
-import OpenAI from 'openai'
+import { openai } from '@/lib/openai'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
 import { isTakePlan } from '@/lib/plan'
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
 
 const MOOD_SCORE: Record<string, number> = {
   '良かった': 5,

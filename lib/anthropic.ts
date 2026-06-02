@@ -1,6 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk'
 
-export const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+export const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY?.replace(/^﻿/, '') })
 
 export function extractJSON(text: string): string {
   const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/s)

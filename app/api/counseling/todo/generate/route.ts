@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server'
-import OpenAI from 'openai'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
 import { isTakePlan } from '@/lib/plan'
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+const genAI = new GoogleGenerativeAI((process.env.GEMINI_API_KEY ?? '').replace(/^﻿/, ''))
+
 
 function getWeekStart(date = new Date()) {
   const d = new Date(date)
@@ -53,11 +54,8 @@ export async function POST() {
     ? `最近の日記:\n${diaries.map(d => `- ${d.content.slice(0, 100)}`).join('\n')}`
     : ''
 
-  const completion = await openai.chat.completions.create({
-    model: 'gpt-5-mini',
-    messages: [{
-      role: 'user',
-      content: `ユーザーの今週の「じぶんTODO」を5つ生成してください。
+  const model = genAI.getGenerativeModel({ model: 'gemini-3.1-flash-lite' })
+  const result = await model.generateContent(`ユーザーの今週の「じぶんTODO」を5つ生成してください。
 じぶんTODOとは、自分を大切にするための、今週やってみる小さなことです。
 
 ${typeName ? `ユーザーの性格タイプ：${typeName}` : ''}
@@ -75,15 +73,11 @@ ${diaryContext}
 ・1つ15〜30文字程度。「〜してみる」「〜を試してみる」など、やわらかいトーンで
 
 JSONのみ返してください:
-{"todos": ["", "", "", "", ""]}`,
-    }],
-  })
+{"todos": ["", "", "", "", ""]}`)
 
   let parsed: { todos?: string[] } = { todos: [] }
   try {
-    const raw = completion.choices[0].message.content ?? ''
-    console.log('[todo/generate] finish_reason:', completion.choices[0].finish_reason)
-    console.log('[todo/generate] refusal:', completion.choices[0].message.refusal)
+    const raw = result.response.text()
     console.log('[todo/generate] raw response:', raw.slice(0, 300))
     const jsonMatch = raw.match(/\{[\s\S]*\}/)
     parsed = JSON.parse(jsonMatch ? jsonMatch[0] : '{"todos":[]}')

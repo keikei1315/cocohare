@@ -345,7 +345,7 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
       <div className="px-4 space-y-4 max-w-xl mx-auto">
 
         {/* セクション1〜8: SSEストリーミング */}
-        <FreeResultStream diagnosisId={id} metadata={metadata} initialData={initialData} />
+        <FreeResultStream diagnosisId={id} metadata={metadata} initialData={initialData} showOtherCta={answerCount === 0} />
 
         {/* シェア */}
         <div id="share" className="bg-white rounded-2xl p-5 shadow-sm">
@@ -374,10 +374,6 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
                     <div className="rounded-xl p-4" style={{ backgroundColor: '#F0F0FA' }}>
                       <p className="text-xs font-bold mb-1" style={{ color: '#8B8DD4' }}>秘密の窓</p>
                       <p className="text-sm leading-relaxed" style={{ color: '#3F342D' }}>あなたが内側で大切にしている想いや価値観は、まだ周りには十分伝わっていないかもしれません。少し打ち明けてみることで、関係がぐっと深まるかもしれません。</p>
-                    </div>
-                    <div className="rounded-xl p-4" style={{ backgroundColor: '#EEF7F4' }}>
-                      <p className="text-xs font-bold mb-1" style={{ color: '#6BB5A0' }}>未知の窓</p>
-                      <p className="text-sm leading-relaxed" style={{ color: '#3F342D' }}>あなた自身も、周りの人も、まだ気づいていない潜在的な可能性が眠っているかもしれません。新しい環境や経験の中で、思わぬ才能が開花することがあります。</p>
                     </div>
                   </div>
                 </div>
