@@ -5,6 +5,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import ManagePlanButton from '@/app/components/ManagePlanButton'
 import DiagnosisHistory from '@/app/components/DiagnosisHistory'
 import PurchaseHistory, { type PurchaseItem } from '@/app/components/PurchaseHistory'
+import LogoutButton from '@/app/components/LogoutButton'
 
 export default async function MyPage() {
   const serverClient = await createClient()
@@ -186,15 +187,7 @@ export default async function MyPage() {
             </div>
           )}
 
-          <form action="/api/auth/signout" method="POST">
-            <button
-              type="submit"
-              className="w-full py-3 rounded-2xl text-sm"
-              style={{ border: '1px solid #E5DDD8', color: '#3F342D66' }}
-            >
-              ログアウト
-            </button>
-          </form>
+          <LogoutButton />
         </div>
       </div>
     </div>
