@@ -368,6 +368,7 @@ export default function ChatClient({
       style={{
         position: 'fixed',
         inset: 0,
+        height: '100dvh',
         zIndex: 50,
         display: 'flex',
         flexDirection: 'column',
