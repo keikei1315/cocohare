@@ -6,7 +6,7 @@
     },
     {
       "path": "/api/cron/generate-diaries",
-      "schedule": "0 15 * * *"
+      "schedule": "0 17 * * *"
     },
     {
       "path": "/api/cron/cleanup",
