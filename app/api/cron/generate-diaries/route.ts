@@ -5,7 +5,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 const genAI = new GoogleGenerativeAI((process.env.GEMINI_API_KEY ?? '').replace(/^﻿/, ''))
 
 
-// 実行時刻: 15:00 UTC = 00:00 JST
+// 実行時刻: 17:00 UTC = 02:00 JST
 // 「昨日JST」の UTC 範囲を返す
 function getYesterdayJSTBounds() {
   const now = new Date()
@@ -28,10 +28,9 @@ async function generateDiaryForUser(userId: string, adminClient: ReturnType<type
     .from('diary_entries')
     .select('id')
     .eq('user_id', userId)
-    .gte('created_at', start)
-    .lte('created_at', end)
-    .limit(1)
-  if (existing?.length) return
+    .eq('diary_date', dateStr)
+    .maybeSingle()
+  if (existing) return
 
   // 昨日の会話を取得
   const { data: messages } = await adminClient
@@ -79,6 +78,7 @@ ${conversationText}
 
   await adminClient.from('diary_entries').insert({
     user_id: userId,
+    diary_date: dateStr,
     content: '',
     ai_content: aiContent,
     created_at: noon,
