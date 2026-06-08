@@ -15,8 +15,8 @@ export default function LockedSection({
 }: LockedSectionProps) {
   const config = {
     other: {
-      title: 'ジョハリの4つの窓を解放しよう',
-      body: '無料・リンクを送るだけ。1人回答してもらうと「開放」「盲点」「秘密」「未知」の窓が開きます。自分の結果と、他の人から見た自分を見比べてみましょう。',
+      title: '相手から見た自分の強みや性格を知ってみませんか？',
+      body: '【無料で簡単】リンクを送るだけで診断できます！仲の良い友達や家族に診断してもらい、1人以上の回答でジョハリの4つの窓が解放されます。自分の結果と相手からの結果をグラフで可視化！3人以上でさらに詳細なレポートが届きます。',
       cta: '無料で他者診断を依頼する →',
       href: `/diagnosis/other?diagnosisId=${diagnosisId}`,
     },
