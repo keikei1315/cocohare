@@ -470,7 +470,7 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
                 )}
               </div>
               <Link href={`/diagnosis/other?diagnosisId=${id}`} className="block mt-4 text-center text-xs" style={{ color: '#FAA66B' }}>
-                もっと依頼する（{answerCount}/4人回答済み）
+                もっと依頼する（{answerCount}人回答済み）
               </Link>
             </div>
           ) : <OtherSinglePoller diagnosisId={id} />}

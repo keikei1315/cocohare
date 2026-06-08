@@ -81,7 +81,6 @@ function OtherDiagnosisContent() {
     setTimeout(() => setCopiedToken(null), 2000)
   }
 
-  const canAddMore = links.length < 4
   const remaining = Math.max(0, 3 - answerCount)
   const nameReady = savedName && !editingName
 
@@ -240,7 +239,7 @@ function OtherDiagnosisContent() {
         )}
 
         {/* 新規リンク発行ボタン */}
-        {nameReady && canAddMore && (
+        {nameReady && (
           <>
             {errorMsg && <p className="text-xs mb-2 text-center" style={{ color: '#E57373' }}>{errorMsg}</p>}
             <button
@@ -249,15 +248,9 @@ function OtherDiagnosisContent() {
               className="w-full py-3.5 rounded-2xl text-sm font-medium mb-4 transition"
               style={{ backgroundColor: creating ? '#E5DDD8' : '#FAA66B', color: '#fff' }}
             >
-              {creating ? '発行中...' : links.length === 0 ? '診断リンクを発行する' : `もう1人に依頼する（${links.length}/4）`}
+              {creating ? '発行中...' : links.length === 0 ? '診断リンクを発行する' : `もう1人に依頼する（${links.length}人に依頼済み）`}
             </button>
           </>
-        )}
-
-        {!canAddMore && (
-          <div className="rounded-2xl p-3 mb-4 text-center text-xs" style={{ backgroundColor: '#F5F0EC', color: '#3F342D66' }}>
-            リンクは最大4件まで発行できます
-          </div>
         )}
 
         {diagnosisId && (

@@ -25,16 +25,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: '診断が見つかりません' }, { status: 404 })
     }
 
-    // 最大4件チェック
-    const { count } = await adminClient
-      .from('other_perspective_links')
-      .select('id', { count: 'exact', head: true })
-      .eq('diagnosis_id', diagnosisId)
-
-    if ((count ?? 0) >= 4) {
-      return NextResponse.json({ error: 'リンクは最大4件まで発行できます' }, { status: 400 })
-    }
-
     const { data: link, error } = await adminClient
       .from('other_perspective_links')
       .insert({
