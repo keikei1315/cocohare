@@ -15,9 +15,9 @@ export default function LockedSection({
 }: LockedSectionProps) {
   const config = {
     other: {
-      title: '他者診断を受けると解放',
-      body: '友人・家族・職場の人に回答してもらうと、自分では気づかない強みが見えてきます。',
-      cta: '他者診断を依頼する',
+      title: 'ジョハリの4つの窓を解放しよう',
+      body: '無料・リンクを送るだけ。1人回答してもらうと「開放」「盲点」「秘密」「未知」の窓が開きます。自分の結果と、他の人から見た自分を見比べてみましょう。',
+      cta: '無料で他者診断を依頼する →',
       href: `/diagnosis/other?diagnosisId=${diagnosisId}`,
     },
     other_multi: {
