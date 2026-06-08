@@ -193,12 +193,12 @@ export default function FreeResultStream({ diagnosisId, metadata, initialData, s
           className="block rounded-2xl p-5 text-center"
           style={{ backgroundColor: '#FFF2E8', textDecoration: 'none', border: '1px solid #FAA66B33' }}
         >
-          <p className="text-sm font-bold mb-2" style={{ color: '#FAA66B' }}>他者から見た自分、気になりませんか？</p>
-          <p className="text-xs leading-relaxed mb-1" style={{ color: '#3F342D' }}>
-            無料・リンクを送るだけで簡単にできます。
+          <p className="text-sm font-bold mb-2" style={{ color: '#FAA66B' }}>相手から見た自分の強みや性格を知ってみませんか？</p>
+          <p className="text-xs font-medium mb-3" style={{ color: '#3F342D' }}>
+            無料で簡単診断！リンクを送るだけ
           </p>
           <p className="text-xs leading-relaxed mb-4" style={{ color: '#3F342D99' }}>
-            1人回答してもらうだけで「開放」「盲点」「秘密」「未知」ジョハリの4つの窓が解放されます。自分では気づけないあなたの強みや、周りから見えている姿を見比べてみましょう。
+            仲の良い友達や家族に診断してもらうことで、「開放」「盲点」「秘密」「未知」ジョハリの4つの窓が解放されます。自分の診断結果と相手からの診断結果をグラフで可視化！3人以上の回答でさらに詳細なレポートが作られ、気づいていない自分を知ることができます。
           </p>
           <span className="inline-block px-5 py-2.5 rounded-full text-xs font-medium" style={{ backgroundColor: '#FAA66B', color: '#fff' }}>
             無料で他者診断を依頼する →
