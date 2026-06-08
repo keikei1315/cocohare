@@ -347,13 +347,6 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
         {/* セクション1〜8: SSEストリーミング */}
         <FreeResultStream diagnosisId={id} metadata={metadata} initialData={initialData} showOtherCta={answerCount === 0} />
 
-        {/* シェア */}
-        <div id="share" className="bg-white rounded-2xl p-5 shadow-sm">
-          <h2 className="text-sm font-bold mb-1" style={{ color: '#3F342D' }}>診断結果をシェアする</h2>
-          <p className="text-xs leading-relaxed mb-4" style={{ color: '#3F342D99' }}>「私ってこんな人でした」を友人に教えてみましょう。</p>
-          <ShareButtons typeName={c.typeName ?? typeDef.name} diagnosisId={id} />
-        </div>
-
         {/* ── 他者視点セクション ── */}
         <div id="other">
           {answerCount === 0 ? (
@@ -481,6 +474,13 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
               </Link>
             </div>
           ) : <OtherSinglePoller diagnosisId={id} />}
+        </div>
+
+        {/* シェア */}
+        <div id="share" className="bg-white rounded-2xl p-5 shadow-sm">
+          <h2 className="text-sm font-bold mb-1" style={{ color: '#3F342D' }}>診断結果をシェアする</h2>
+          <p className="text-xs leading-relaxed mb-4" style={{ color: '#3F342D99' }}>「私ってこんな人でした」を友人に教えてみましょう。</p>
+          <ShareButtons typeName={c.typeName ?? typeDef.name} diagnosisId={id} />
         </div>
 
         {/* ── 3人以上ボーナスセクション ── */}
