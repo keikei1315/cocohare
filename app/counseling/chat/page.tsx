@@ -60,6 +60,7 @@ export default async function CounselingChatPage() {
       isMoodCheck,
       moodDate,
       moodSelected: moodDate ? (moodByDate[moodDate] || undefined) : undefined,
+      created_at: m.created_at,
     }
   })
 

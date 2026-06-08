@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect, useCallback, Fragment } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -13,6 +13,32 @@ type Message = {
   isMoodCheck?: boolean
   moodSelected?: string
   moodDate?: string
+  created_at?: string
+}
+
+function getDateStrJST(iso: string): string {
+  return new Date(new Date(iso).getTime() + 9 * 60 * 60 * 1000).toISOString().split('T')[0]
+}
+
+function formatTimeJST(iso: string): string {
+  const d = new Date(new Date(iso).getTime() + 9 * 60 * 60 * 1000)
+  return `${String(d.getUTCHours()).padStart(2, '0')}:${String(d.getUTCMinutes()).padStart(2, '0')}`
+}
+
+function formatDateLabel(iso: string): string {
+  const jst = new Date(new Date(iso).getTime() + 9 * 60 * 60 * 1000)
+  const todayJST = new Date(new Date().getTime() + 9 * 60 * 60 * 1000)
+  const dateStr = jst.toISOString().split('T')[0]
+  const todayStr = todayJST.toISOString().split('T')[0]
+  const yesterdayStr = new Date(todayJST.getTime() - 86400000).toISOString().split('T')[0]
+  if (dateStr === todayStr) return '今日'
+  if (dateStr === yesterdayStr) return '昨日'
+  const weekdays = ['日', '月', '火', '水', '木', '金', '土']
+  const m = jst.getUTCMonth() + 1
+  const d = jst.getUTCDate()
+  const w = weekdays[jst.getUTCDay()]
+  if (jst.getUTCFullYear() === todayJST.getUTCFullYear()) return `${m}/${d}（${w}）`
+  return `${jst.getUTCFullYear()}/${m}/${d}（${w}）`
 }
 
 type Mode = 'counseling' | 'coaching' | 'casual'
@@ -64,8 +90,8 @@ export default function ChatClient({
   const initialMode: Mode = canCounseling ? 'counseling' : 'casual'
   const [mode, setMode] = useState<Mode>(initialMode)
   const initMsg = (): Message => isCrisis
-    ? { role: 'assistant', content: 'そばにいます。\nどんなことがあっても、ここで話してくれていいです。\n今、どんな気持ちですか？', mode: 'counseling' }
-    : { role: 'assistant', content: FIRST_MESSAGES[mode], mode }
+    ? { role: 'assistant', content: 'そばにいます。\nどんなことがあっても、ここで話してくれていいです。\n今、どんな気持ちですか？', mode: 'counseling', created_at: new Date().toISOString() }
+    : { role: 'assistant', content: FIRST_MESSAGES[mode], mode, created_at: new Date().toISOString() }
 
   const [chatMessages, setChatMessages] = useState<Message[]>(
     initialMessages.length > 0 ? initialMessages : [initMsg()]
@@ -204,7 +230,7 @@ export default function ChatClient({
     const moodDate = chatMessages[msgIndex]?.moodDate
     setChatMessages(prev => [
       ...prev.map((m, i) => i === msgIndex ? { ...m, moodSelected: level } : m),
-      { role: 'assistant', content: '', mode },
+      { role: 'assistant', content: '', mode, created_at: new Date().toISOString() },
     ])
     setLoading(true)
     try {
@@ -216,13 +242,13 @@ export default function ChatClient({
       const data = await res.json()
       setChatMessages(prev => {
         const updated = [...prev]
-        updated[updated.length - 1] = { role: 'assistant', content: data.message ?? '気持ちを教えてくれてありがとうございます。', mode }
+        updated[updated.length - 1] = { ...updated[updated.length - 1], content: data.message ?? '気持ちを教えてくれてありがとうございます。' }
         return updated
       })
     } catch {
       setChatMessages(prev => {
         const updated = [...prev]
-        updated[updated.length - 1] = { role: 'assistant', content: '気持ちを教えてくれてありがとうございます。', mode }
+        updated[updated.length - 1] = { ...updated[updated.length - 1], content: '気持ちを教えてくれてありがとうございます。' }
         return updated
       })
     } finally {
@@ -254,8 +280,9 @@ export default function ChatClient({
     setInput('')
     if (textareaRef.current) textareaRef.current.style.height = 'auto'
 
-    const userMsg: Message = { role: 'user', content: text, mode }
-    setChatMessages(prev => [...prev, userMsg, { role: 'assistant', content: '', mode }])
+    const now = new Date().toISOString()
+    const userMsg: Message = { role: 'user', content: text, mode, created_at: now }
+    setChatMessages(prev => [...prev, userMsg, { role: 'assistant', content: '', mode, created_at: now }])
     setLoading(true)
 
     try {
@@ -276,18 +303,14 @@ export default function ChatClient({
         content += decoder.decode(value, { stream: true })
         setChatMessages(prev => {
           const updated = [...prev]
-          updated[updated.length - 1] = { role: 'assistant', content, mode }
+          updated[updated.length - 1] = { ...updated[updated.length - 1], content }
           return updated
         })
       }
     } catch {
       setChatMessages(prev => {
         const updated = [...prev]
-        updated[updated.length - 1] = {
-          role: 'assistant',
-          content: 'ごめんなさい、うまく繋がれませんでした。もう一度試してみてください。',
-          mode,
-        }
+        updated[updated.length - 1] = { ...updated[updated.length - 1], content: 'ごめんなさい、うまく繋がれませんでした。もう一度試してみてください。' }
         return updated
       })
     } finally {
@@ -299,7 +322,7 @@ export default function ChatClient({
   const switchMode = (newMode: Mode) => {
     if (newMode === mode) return
     setMode(newMode)
-    setChatMessages(prev => [...prev, { role: 'assistant', content: SWITCH_MESSAGES[newMode], mode: newMode }])
+    setChatMessages(prev => [...prev, { role: 'assistant', content: SWITCH_MESSAGES[newMode], mode: newMode, created_at: new Date().toISOString() }])
   }
 
   type MenuCell = {
@@ -678,117 +701,87 @@ export default function ChatClient({
           gap: '10px',
         }}
       >
-        {chatMessages.map((msg, i) => (
-          <div
-            key={i}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '8px',
-              width: '100%',
-            }}
-          >
-            <div style={{
-              display: 'flex',
-              alignItems: 'flex-end',
-              gap: '8px',
-              width: '100%',
-              justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start',
-            }}>
-              {msg.role === 'assistant' && (
-                <Image
-                  src="/potori/happy.png"
-                  alt="ぽとり"
-                  width={34}
-                  height={34}
-                  className="object-contain shrink-0"
-                  style={{ marginBottom: '2px' }}
-                />
+        {chatMessages.map((msg, i) => {
+          const prevMsg = i > 0 ? chatMessages[i - 1] : null
+          const showDateSep = !!msg.created_at && (!prevMsg?.created_at || getDateStrJST(prevMsg.created_at) !== getDateStrJST(msg.created_at))
+          return (
+            <Fragment key={i}>
+              {showDateSep && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '4px 0' }}>
+                  <div style={{ flex: 1, height: '1px', backgroundColor: '#EDE5DC' }} />
+                  <span style={{ fontSize: '11px', color: '#3F342D66', flexShrink: 0 }}>{formatDateLabel(msg.created_at!)}</span>
+                  <div style={{ flex: 1, height: '1px', backgroundColor: '#EDE5DC' }} />
+                </div>
               )}
-              <div
-                style={{
-                  maxWidth: '68%',
-                  padding: '11px 14px',
-                  fontSize: '14px',
-                  lineHeight: 1.65,
-                  whiteSpace: 'pre-wrap',
-                  wordBreak: 'break-word',
-                  ...(msg.role === 'assistant'
-                    ? {
-                        backgroundColor: '#fff',
-                        color: '#3F342D',
-                        borderRadius: '4px 16px 16px 16px',
-                        boxShadow: '0 1px 3px rgba(63,52,45,0.08)',
-                      }
-                    : {
-                        backgroundColor: '#FAA66B',
-                        color: '#fff',
-                        borderRadius: '16px 4px 16px 16px',
-                        animation: 'fadeInRight 0.28s ease forwards',
-                      }),
-                }}
-              >
-                {msg.content ? renderContent(msg.content) : (
-                  <span style={{ display: 'flex', gap: '4px', alignItems: 'center', padding: '2px 0' }}>
-                    {[0, 150, 300].map(d => (
-                      <span
-                        key={d}
-                        className="animate-bounce"
-                        style={{
-                          width: '6px', height: '6px', borderRadius: '50%',
-                          backgroundColor: '#FAA66B66',
-                          animationDelay: `${d}ms`, display: 'inline-block',
-                        }}
-                      />
-                    ))}
-                  </span>
-                )}
-              </div>
-            </div>
-            {msg.isMoodCheck && (
-              <div style={{ paddingLeft: '42px' }}>
-                {!msg.moodSelected ? (
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', width: '220px' }}>
-                    {MOOD_LEVELS.map(level => (
-                      <button
-                        key={level}
-                        onClick={() => handleMoodSelect(level, i)}
-                        disabled={loading}
-                        style={{
-                          padding: '10px 8px',
-                          borderRadius: '12px',
-                          border: '1.5px solid #EDE5DC',
-                          backgroundColor: '#fff',
-                          fontSize: '12px',
-                          fontWeight: 600,
-                          color: loading ? '#3F342D44' : '#3F342D',
-                          cursor: loading ? 'not-allowed' : 'pointer',
-                          lineHeight: 1.4,
-                          textAlign: 'center',
-                        }}
-                      >
-                        {level}
-                      </button>
-                    ))}
-                  </div>
-                ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'flex-end',
+                  gap: '8px',
+                  width: '100%',
+                  justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start',
+                }}>
+                  {msg.role === 'assistant' && (
+                    <Image src="/potori/happy.png" alt="ぽとり" width={34} height={34} className="object-contain shrink-0" style={{ marginBottom: '2px' }} />
+                  )}
+                  {msg.role === 'user' && msg.created_at && msg.content && (
+                    <span style={{ fontSize: '10px', color: '#3F342D55', flexShrink: 0, marginBottom: '3px' }}>
+                      {formatTimeJST(msg.created_at)}
+                    </span>
+                  )}
                   <div
                     style={{
-                      fontSize: '12px',
-                      color: '#3F342D66',
-                      padding: '6px 12px',
-                      backgroundColor: '#F5EFE9',
-                      borderRadius: '10px',
-                      display: 'inline-block',
+                      maxWidth: '68%',
+                      padding: '11px 14px',
+                      fontSize: '14px',
+                      lineHeight: 1.65,
+                      whiteSpace: 'pre-wrap',
+                      wordBreak: 'break-word',
+                      ...(msg.role === 'assistant'
+                        ? { backgroundColor: '#fff', color: '#3F342D', borderRadius: '4px 16px 16px 16px', boxShadow: '0 1px 3px rgba(63,52,45,0.08)' }
+                        : { backgroundColor: '#FAA66B', color: '#fff', borderRadius: '16px 4px 16px 16px', animation: 'fadeInRight 0.28s ease forwards' }),
                     }}
                   >
-                    ✓ {msg.moodSelected}
+                    {msg.content ? renderContent(msg.content) : (
+                      <span style={{ display: 'flex', gap: '4px', alignItems: 'center', padding: '2px 0' }}>
+                        {[0, 150, 300].map(d => (
+                          <span key={d} className="animate-bounce" style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#FAA66B66', animationDelay: `${d}ms`, display: 'inline-block' }} />
+                        ))}
+                      </span>
+                    )}
+                  </div>
+                  {msg.role === 'assistant' && msg.created_at && msg.content && (
+                    <span style={{ fontSize: '10px', color: '#3F342D55', flexShrink: 0, marginBottom: '3px' }}>
+                      {formatTimeJST(msg.created_at)}
+                    </span>
+                  )}
+                </div>
+                {msg.isMoodCheck && (
+                  <div style={{ paddingLeft: '42px' }}>
+                    {!msg.moodSelected ? (
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', width: '220px' }}>
+                        {MOOD_LEVELS.map(level => (
+                          <button
+                            key={level}
+                            onClick={() => handleMoodSelect(level, i)}
+                            disabled={loading}
+                            style={{ padding: '10px 8px', borderRadius: '12px', border: '1.5px solid #EDE5DC', backgroundColor: '#fff', fontSize: '12px', fontWeight: 600, color: loading ? '#3F342D44' : '#3F342D', cursor: loading ? 'not-allowed' : 'pointer', lineHeight: 1.4, textAlign: 'center' }}
+                          >
+                            {level}
+                          </button>
+                        ))}
+                      </div>
+                    ) : (
+                      <div style={{ fontSize: '12px', color: '#3F342D66', padding: '6px 12px', backgroundColor: '#F5EFE9', borderRadius: '10px', display: 'inline-block' }}>
+                        ✓ {msg.moodSelected}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
-            )}
-          </div>
-        ))}
+            </Fragment>
+          )
+        })}
         <div style={{ height: '4px' }} />
       </div>
 
