@@ -13,12 +13,12 @@ export async function POST(request: NextRequest) {
   const MONTHLY = {
     ume:   { amount: 480,   name: 'ほっこりプラン', desc: 'AIとの会話（無制限）・カウンセリングモード' },
     take:  { amount: 980,   name: 'やすらぎプラン', desc: '日記・気分記録・週間レポート・じぶんTODO' },
-    matsu: { amount: 1980,  name: 'ぬくもりプラン', desc: '月間レポート・月次振り返りセッション・じぶんノート' },
+    matsu: { amount: 1480,  name: 'ぬくもりプラン', desc: '月間レポート・月次振り返りセッション・じぶんノート' },
   } as const
   const ANNUAL = {
     ume:   { amount: 4800,  name: 'ほっこりプラン（年間）', desc: 'AIとの会話（無制限）・カウンセリングモード' },
     take:  { amount: 9800,  name: 'やすらぎプラン（年間）', desc: '日記・気分記録・週間レポート・じぶんTODO' },
-    matsu: { amount: 19800, name: 'ぬくもりプラン（年間）', desc: '月間レポート・月次振り返りセッション・じぶんノート' },
+    matsu: { amount: 14800, name: 'ぬくもりプラン（年間）', desc: '月間レポート・月次振り返りセッション・じぶんノート' },
   } as const
 
   const PLANS = interval === 'year' ? ANNUAL : MONTHLY

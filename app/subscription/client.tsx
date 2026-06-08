@@ -38,8 +38,8 @@ const PLANS = [
   {
     id: 'matsu' as Plan,
     name: 'ぬくもり',
-    monthly: 1980,
-    annual: 19800,
+    monthly: 1480,
+    annual: 14800,
     concept: '本格的に自己理解したい人向け',
     features: [
       'やすらぎプランの全機能',

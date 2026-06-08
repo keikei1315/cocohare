@@ -4,8 +4,8 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 
 const AMOUNTS = {
-  month: { ume: 480, take: 980, matsu: 1980 },
-  year:  { ume: 4800, take: 9800, matsu: 19800 },
+  month: { ume: 480, take: 980, matsu: 1480 },
+  year:  { ume: 4800, take: 9800, matsu: 14800 },
 } as const
 
 const PLAN_NAMES = {
