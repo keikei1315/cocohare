@@ -410,7 +410,7 @@ export async function POST(request: NextRequest) {
     const [{ data: history }, { data: memories }] = await Promise.all([
       adminClient
         .from('counseling_messages')
-        .select('role, content')
+        .select('role, content, created_at')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false })
         .limit(20),
@@ -421,10 +421,23 @@ export async function POST(request: NextRequest) {
         .maybeSingle(),
     ])
 
+    const nowJST = new Date(Date.now() + 9 * 60 * 60 * 1000)
+    const weekdays = ['日', '月', '火', '水', '木', '金', '土']
+    const nowStr = `${nowJST.getUTCFullYear()}年${nowJST.getUTCMonth() + 1}月${nowJST.getUTCDate()}日（${weekdays[nowJST.getUTCDay()]}）${String(nowJST.getUTCHours()).padStart(2, '0')}:${String(nowJST.getUTCMinutes()).padStart(2, '0')}`
+
+    const formatMsgDateJST = (iso: string) => {
+      const d = new Date(new Date(iso).getTime() + 9 * 60 * 60 * 1000)
+      return `${d.getUTCFullYear()}/${d.getUTCMonth() + 1}/${d.getUTCDate()} ${String(d.getUTCHours()).padStart(2, '0')}:${String(d.getUTCMinutes()).padStart(2, '0')}`
+    }
+
     const historyMessages = (history ?? []).reverse().map(m => ({
       role: m.role as 'user' | 'assistant',
-      content: m.content,
+      content: m.role === 'user'
+        ? `[${formatMsgDateJST(m.created_at)}]\n${m.content}`
+        : m.content,
     }))
+
+    const timeContextPrompt = `\n\n【現在の日時】${nowStr}\n・ユーザーの発言履歴には [YYYY/M/D HH:MM] の形式で送信日時が付いています。\n・時間の経過を必ず意識すること。数日前・数週間前の話題を、まるで今起きたことのように扱わないこと。\n・過去の話題に触れる場合は「○日前に話してたこと」「先週話してた〜」など、時間経過を自然に反映した表現を使うこと。`
 
     const systemPrompt = buildSystemPrompt(
       effectiveMode,
@@ -432,7 +445,7 @@ export async function POST(request: NextRequest) {
       paidReportRow.data?.content as PaidReport | null,
       (htStrengthsRow.data?.content as { strengths?: HtStrengths } | null)?.strengths ?? null,
       htAnswersRow.data as HtAnswers | null,
-    ) + buildMemoryPrompt(memories)
+    ) + buildMemoryPrompt(memories) + timeContextPrompt
 
     // ユーザーメッセージを保存
     await adminClient.from('counseling_messages').insert({
