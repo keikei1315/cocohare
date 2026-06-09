@@ -57,24 +57,6 @@ export default function HomeClient() {
           <Image src="/logo.png" alt="CocoHare" width={120} height={36} className="mx-auto mb-2" />
           <p className="text-sm mb-7" style={{ color: '#3F342D99' }}>こころ晴れる毎日を</p>
 
-          <div className="bg-white rounded-2xl shadow-sm p-5 mb-4">
-            <div className="flex justify-center mb-3">
-              <Image src="/potori/humming.webp" alt="ぽとり" width={72} height={72} className="object-contain" />
-            </div>
-            <h2 className="text-sm font-medium mb-1.5" style={{ color: '#3F342D' }}>ぽとりと話す</h2>
-            <p className="text-xs leading-relaxed mb-4" style={{ color: '#3F342D99' }}>
-              今日のきもちを話してみましょう。<br />
-              ぽとりがそっと寄り添います。
-            </p>
-            <Link
-              href="/counseling/chat"
-              className="block w-full py-3 rounded-xl text-white text-sm font-medium transition hover:opacity-90"
-              style={{ backgroundColor: '#FAA66B' }}
-            >
-              話しはじめる
-            </Link>
-          </div>
-
           <PwaNotifButtons />
 
           <div className="bg-white rounded-2xl shadow-sm p-5 mb-4">
@@ -94,6 +76,17 @@ export default function HomeClient() {
               性格診断を受ける
             </Link>
           </div>
+
+          <a
+            href="https://line.me/R/ti/p/@455zndeb"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block rounded-2xl p-5 mb-4 text-center"
+            style={{ backgroundColor: '#00B900', textDecoration: 'none' }}
+          >
+            <p className="text-sm font-bold mb-1" style={{ color: '#fff' }}>LINEでAIカウンセリング</p>
+            <p className="text-xs" style={{ color: '#ffffff99' }}>ぽとりとLINEで話してみよう</p>
+          </a>
 
           <div className="flex gap-3 text-xs" style={{ color: '#3F342D66' }}>
             <Link href="/mypage" className="flex-1 py-2.5 rounded-xl border text-center transition" style={{ borderColor: '#E5DDD8' }}>
@@ -130,23 +123,16 @@ export default function HomeClient() {
           <p className="text-xs mt-2" style={{ color: '#3F342D66' }}>ログイン不要・約3〜5分</p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm p-5 mb-4">
-          <div className="flex justify-center mb-3">
-            <Image src="/potori/humming.webp" alt="ぽとり" width={72} height={72} className="object-contain" />
-          </div>
-          <h2 className="text-sm font-medium mb-1.5" style={{ color: '#3F342D' }}>ぽとりと話す</h2>
-          <p className="text-xs leading-relaxed mb-4" style={{ color: '#3F342D99' }}>
-            今日のきもちを話してみましょう。<br />
-            ぽとりがそっと寄り添います。
-          </p>
-          <Link
-            href="/counseling/chat"
-            className="block w-full py-3 rounded-xl text-white text-sm font-medium transition hover:opacity-90"
-            style={{ backgroundColor: '#FAA66B' }}
-          >
-            話しはじめる
-          </Link>
-        </div>
+        <a
+          href="https://line.me/R/ti/p/@455zndeb"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block rounded-2xl p-5 mb-4 text-center"
+          style={{ backgroundColor: '#00B900', textDecoration: 'none' }}
+        >
+          <p className="text-sm font-bold mb-1" style={{ color: '#fff' }}>LINEでAIカウンセリング</p>
+          <p className="text-xs" style={{ color: '#ffffff99' }}>ぽとりとLINEで話してみよう</p>
+        </a>
 
         <PwaNotifButtons />
 

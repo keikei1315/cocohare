@@ -1130,6 +1130,18 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
           </div>
         )}
 
+        {/* LINE カウンセリング導線 */}
+        <a
+          href="https://line.me/R/ti/p/@455zndeb"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block rounded-2xl p-5 text-center"
+          style={{ backgroundColor: '#00B900', textDecoration: 'none' }}
+        >
+          <p className="text-sm font-bold mb-1" style={{ color: '#fff' }}>LINEでAIカウンセリング</p>
+          <p className="text-xs" style={{ color: '#ffffff99' }}>ぽとりとLINEで話してみよう</p>
+        </a>
+
       </div>
     </div>
   )

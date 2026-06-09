@@ -113,9 +113,6 @@ export default function GlobalNavDrawer({ isOpen, onClose }: Props) {
 
           {isLoggedIn && (
             <>
-              {subscribed && (
-                <button style={itemStyle} onClick={() => go('/counseling/chat')}>{icons.chat}ぽとりと話す</button>
-              )}
               {(plan === 'take' || plan === 'matsu') && (
                 <>
                   <button style={itemStyle} onClick={() => go('/counseling/diary')}>{icons.diary}ぽとりの日記</button>
