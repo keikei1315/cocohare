@@ -172,7 +172,7 @@ export default function HomeClient() {
           </div>
         </div>
 
-        <PwaNotifButtons />
+        {/* <PwaNotifButtons /> */}
 
         <div className="flex gap-3 text-xs" style={{ color: '#3F342D66' }}>
           <Link href="/login" className="flex-1 py-2.5 rounded-xl border text-center transition" style={{ borderColor: '#E5DDD8' }}>
