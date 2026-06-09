@@ -142,7 +142,7 @@ export default function GlobalNavDrawer({ isOpen, onClose }: Props) {
           )}
         </div>
 
-        {/* Subscription CTA */}
+        {/* サブスクCTAは非表示（方針変更時に復元）
         {isLoggedIn && !subscribed && (
           <div style={{ padding: '16px', borderTop: '1px solid #F0EAE5' }}>
             <button
@@ -174,6 +174,7 @@ export default function GlobalNavDrawer({ isOpen, onClose }: Props) {
             </button>
           </div>
         )}
+        */}
       </div>
     </>
   )

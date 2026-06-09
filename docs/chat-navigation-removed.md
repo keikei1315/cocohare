@@ -78,6 +78,23 @@ cocohare内のチャット・一部機能への導線をUIから削除した。
 ```
 ※ コメントアウトで残してある
 
+**削除したもの③：サブスクCTAボタン（「サブスクに登録する」「プランを確認する」「プランをアップグレード」）**
+```tsx
+{isLoggedIn && !subscribed && (
+  <div style={{ padding: '16px', borderTop: '1px solid #F0EAE5' }}>
+    <button onClick={() => go('/subscription')} ...>サブスクに登録する</button>
+  </div>
+)}
+{isLoggedIn && subscribed && (
+  <div style={{ padding: '16px', borderTop: '1px solid #F0EAE5' }}>
+    <button onClick={() => go('/subscription')} ...>
+      {plan === 'matsu' ? 'プランを確認する' : 'プランをアップグレード'}
+    </button>
+  </div>
+)}
+```
+※ コメントアウトで残してある
+
 ---
 
 ### 3. `app/diagnosis/free/result/[id]/page.tsx`
