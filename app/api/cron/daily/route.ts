@@ -394,7 +394,7 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  // 1st of month (JST): generate monthly reports + notify
+  // 1st of month (JST): generate monthly reports + notify + cleanup
   if (dayOfMonth === 1) {
     const results = await Promise.allSettled(
       users.map(async (user) => {
@@ -405,6 +405,34 @@ export async function GET(request: NextRequest) {
     tasks.monthlyReport = {
       succeeded: results.filter(r => r.status === 'fulfilled').length,
       failed: results.filter(r => r.status === 'rejected').length,
+    }
+
+    // 古いデータのクリーンアップ
+    try {
+      const cutoff = new Date()
+      cutoff.setFullYear(cutoff.getFullYear() - 1)
+      const cutoffISO = cutoff.toISOString()
+      await Promise.all([
+        adminClient.from('jibunn_notes').delete().lt('created_at', cutoffISO),
+        adminClient.from('counseling_reports').delete().lt('created_at', cutoffISO),
+      ])
+      const today = new Date().toISOString().split('T')[0]
+      const { data: allMemories } = await adminClient.from('user_memories').select('user_id, profile_facts')
+      if (allMemories) {
+        for (const mem of allMemories) {
+          const activeFacts = (mem.profile_facts ?? []).filter(
+            (f: { fact: string; expires_at: string }) => f.expires_at >= today
+          )
+          if (activeFacts.length !== (mem.profile_facts ?? []).length) {
+            await adminClient.from('user_memories')
+              .update({ profile_facts: activeFacts, updated_at: new Date().toISOString() })
+              .eq('user_id', mem.user_id)
+          }
+        }
+      }
+      tasks.cleanup = { succeeded: 1, failed: 0 }
+    } catch {
+      tasks.cleanup = { succeeded: 0, failed: 1 }
     }
   }
 
