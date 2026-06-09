@@ -15,7 +15,7 @@ export default function HomeClient() {
     const supabase = createClient()
     Promise.all([
       supabase.auth.getSession(),
-      new Promise(resolve => setTimeout(resolve, 300)),
+      new Promise(resolve => setTimeout(resolve, 500)),
     ]).then(([{ data: { session } }]) => {
       if (session?.user) {
         setIsSubscribed(session.user.user_metadata?.subscribed === true)
