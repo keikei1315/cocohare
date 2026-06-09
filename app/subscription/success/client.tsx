@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
@@ -70,7 +70,7 @@ export default function SubscriptionSuccess() {
       className="min-h-screen flex flex-col items-center justify-center px-6 text-center"
       style={{ backgroundColor: '#FFF9F5' }}
     >
-      <Image src="/potori/humming.png" alt="ぽとり" width={90} height={90} className="object-contain mb-6" />
+      <Image src="/potori/humming.webp" alt="ぽとり" width={90} height={90} className="object-contain mb-6" />
 
       <h1 className="text-2xl font-bold mb-2" style={{ color: '#3F342D' }}>
         登録完了！

@@ -1,4 +1,4 @@
-self.addEventListener('install', () => self.skipWaiting())
+﻿self.addEventListener('install', () => self.skipWaiting())
 self.addEventListener('activate', (event) => event.waitUntil(clients.claim()))
 
 self.addEventListener('fetch', (event) => {
@@ -13,8 +13,8 @@ self.addEventListener('push', (event) => {
   event.waitUntil(
     self.registration.showNotification(data.title ?? 'ぽとり', {
       body: data.body ?? '',
-      icon: '/potori/happy.png',
-      badge: '/potori/happy.png',
+      icon: '/potori/happy.webp',
+      badge: '/potori/happy.webp',
       data: { url: data.url ?? '/counseling' },
       vibrate: [200, 100, 200],
     })

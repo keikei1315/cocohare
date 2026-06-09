@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
@@ -173,7 +173,7 @@ export default function HomeClient({
           </h1>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <Image src="/potori/humming.png" alt="ぽとり" width={44} height={44} className="object-contain" />
+          <Image src="/potori/humming.webp" alt="ぽとり" width={44} height={44} className="object-contain" />
           <button
             onClick={() => setGlobalMenuOpen(true)}
             style={{ padding: '4px', display: 'flex', flexDirection: 'column', gap: '3.5px', alignItems: 'center', justifyContent: 'center' }}
@@ -253,7 +253,7 @@ export default function HomeClient({
             className="flex flex-col items-center justify-center gap-2 rounded-2xl py-4"
             style={{ backgroundColor: '#FAA66B', color: '#fff' }}
           >
-            <Image src="/potori/happy.png" alt="ぽとり" width={32} height={32} className="object-contain" />
+            <Image src="/potori/happy.webp" alt="ぽとり" width={32} height={32} className="object-contain" />
             <span className="text-sm font-medium">ぽとりと話す</span>
           </Link>
           <button

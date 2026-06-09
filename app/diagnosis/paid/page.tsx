@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
@@ -71,7 +71,7 @@ function PaidPage() {
       {/* ヘッダー */}
       <div className="px-4 pt-10 pb-8 text-center">
         <div className="flex justify-center mb-4">
-          <Image src="/potori/humming.png" alt="ぽとり" width={90} height={90} className="object-contain" />
+          <Image src="/potori/humming.webp" alt="ぽとり" width={90} height={90} className="object-contain" />
         </div>
         <p className="text-xs mb-2" style={{ color: '#FAA66B' }}>詳細レポート</p>
         <h1 className="text-2xl font-bold mb-3" style={{ color: '#3F342D' }}>もっと深く、自分を知る</h1>

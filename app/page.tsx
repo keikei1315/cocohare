@@ -1,4 +1,4 @@
-import Link from 'next/link'
+﻿import Link from 'next/link'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
 import PwaNotifButtons from '@/app/components/PwaNotifButtons'
@@ -18,7 +18,7 @@ export default async function Home() {
           {/* ぽとりと話す（メイン） */}
           <div className="bg-white rounded-2xl shadow-sm p-5 mb-4">
             <div className="flex justify-center mb-3">
-              <Image src="/potori/humming.png" alt="ぽとり" width={72} height={72} className="object-contain" />
+              <Image src="/potori/humming.webp" alt="ぽとり" width={72} height={72} className="object-contain" />
             </div>
             <h2 className="text-sm font-medium mb-1.5" style={{ color: '#3F342D' }}>ぽとりと話す</h2>
             <p className="text-xs leading-relaxed mb-4" style={{ color: '#3F342D99' }}>
@@ -39,7 +39,7 @@ export default async function Home() {
           {/* 診断 */}
           <div className="bg-white rounded-2xl shadow-sm p-5 mb-4">
             <div className="flex justify-center mb-3">
-              <Image src="/potori/good.png" alt="ぽとり" width={72} height={72} className="object-contain" />
+              <Image src="/potori/good.webp" alt="ぽとり" width={72} height={72} className="object-contain" />
             </div>
             <h2 className="text-sm font-medium mb-1.5" style={{ color: '#3F342D' }}>無料性格診断</h2>
             <p className="text-xs leading-relaxed mb-4" style={{ color: '#3F342D99' }}>
@@ -74,7 +74,7 @@ export default async function Home() {
         {/* 診断 */}
         <div className="bg-white rounded-2xl shadow-sm p-5 mb-4">
           <div className="flex justify-center mb-3">
-            <Image src="/potori/good.png" alt="ぽとり" width={72} height={72} className="object-contain" />
+            <Image src="/potori/good.webp" alt="ぽとり" width={72} height={72} className="object-contain" />
           </div>
           <h2 className="text-sm font-medium mb-1.5" style={{ color: '#3F342D' }}>無料性格診断</h2>
           <p className="text-xs leading-relaxed mb-4" style={{ color: '#3F342D99' }}>
@@ -94,7 +94,7 @@ export default async function Home() {
         {/* ぽとりと話す */}
         <div className="bg-white rounded-2xl shadow-sm p-5 mb-4">
           <div className="flex justify-center mb-3">
-            <Image src="/potori/humming.png" alt="ぽとり" width={72} height={72} className="object-contain" />
+            <Image src="/potori/humming.webp" alt="ぽとり" width={72} height={72} className="object-contain" />
           </div>
           <h2 className="text-sm font-medium mb-1.5" style={{ color: '#3F342D' }}>ぽとりと話す</h2>
           <p className="text-xs leading-relaxed mb-4" style={{ color: '#3F342D99' }}>

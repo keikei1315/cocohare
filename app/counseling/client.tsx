@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
@@ -101,7 +101,7 @@ export default function CounselingClient({
         style={{ backgroundColor: '#FFF9F5', borderBottom: '1px solid #F0EAE5' }}
       >
         <Link href="/" className="flex items-center gap-2">
-          <Image src="/potori/humming.png" alt="ぽとり" width={24} height={24} className="object-contain" />
+          <Image src="/potori/humming.webp" alt="ぽとり" width={24} height={24} className="object-contain" />
           <span className="text-sm font-bold" style={{ color: '#3F342D' }}>ぽとり</span>
         </Link>
 
@@ -152,7 +152,7 @@ export default function CounselingClient({
         {chatMessages.map((msg, i) => (
           <div key={i} className={`flex items-end gap-2 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
             {msg.role === 'assistant' && (
-              <Image src="/potori/happy.png" alt="ぽとり" width={32} height={32} className="object-contain shrink-0 mb-1" />
+              <Image src="/potori/happy.webp" alt="ぽとり" width={32} height={32} className="object-contain shrink-0 mb-1" />
             )}
             <div
               className="max-w-xs rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap"

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useCallback, useRef, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -125,7 +125,7 @@ function FreeDiagnosisInner() {
       <div className="min-h-screen flex flex-col items-center justify-center px-4 pb-16" style={{ backgroundColor: '#FFF9F5' }}>
         <div className="w-full max-w-sm text-center">
           <div className="flex justify-center mb-6">
-            <Image src="/potori/humming.png" alt="ぽとり" width={90} height={90} className="object-contain" />
+            <Image src="/potori/humming.webp" alt="ぽとり" width={90} height={90} className="object-contain" />
           </div>
           <h1 className="text-lg font-bold mb-2 leading-snug" style={{ color: '#3F342D' }}>
             もう一度診断を受けますか？
@@ -167,7 +167,7 @@ function FreeDiagnosisInner() {
       <div className="min-h-screen flex flex-col items-center justify-center px-4" style={{ backgroundColor: '#FFF9F5' }}>
         <div className="text-center">
           <div className="flex justify-center mb-6">
-            <Image src="/potori/peek.png" alt="ぽとり" width={120} height={120} className="object-contain animate-bounce" />
+            <Image src="/potori/peek.webp" alt="ぽとり" width={120} height={120} className="object-contain animate-bounce" />
           </div>
           <h2 className="text-lg font-medium mb-3" style={{ color: '#3F342D' }}>
             ぽとりが分析しています...
@@ -191,7 +191,7 @@ function FreeDiagnosisInner() {
       <div className="min-h-screen flex flex-col items-center justify-center px-4" style={{ backgroundColor: '#FFF9F5' }}>
         <div className="w-full max-w-sm text-center">
           <div className="flex justify-center mb-4">
-            <Image src="/potori/comforting.png" alt="ぽとり" width={100} height={100} className="object-contain" />
+            <Image src="/potori/comforting.webp" alt="ぽとり" width={100} height={100} className="object-contain" />
           </div>
           <h2 className="text-lg font-medium mb-2" style={{ color: '#3F342D' }}>
             エラーが発生しました

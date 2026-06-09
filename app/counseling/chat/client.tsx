@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useRef, useEffect, useCallback, Fragment } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
@@ -342,7 +342,7 @@ export default function ChatClient({
     // Row 1: mode selectors
     {
       id: 'casual',
-      img: '/potori/happy.png',
+      img: '/potori/happy.webp',
       title: '普通に話す',
       sub: isSubscribed ? 'おしゃべり' : 'プラン登録〜',
       action: () => isSubscribed ? switchMode('casual') : router.push('/subscription'),
@@ -350,7 +350,7 @@ export default function ChatClient({
     },
     {
       id: 'counseling',
-      img: '/potori/comforting.png',
+      img: '/potori/comforting.webp',
       title: 'カウンセリング',
       sub: canCounseling ? '気持ちをきく' : 'やすらぎ〜',
       action: () => canCounseling ? switchMode('counseling') : router.push('/subscription'),
@@ -358,7 +358,7 @@ export default function ChatClient({
     },
     {
       id: 'coaching',
-      img: '/potori/motivated.png',
+      img: '/potori/motivated.webp',
       title: 'コーチング',
       sub: canCoaching ? '目標に向けて' : 'ぬくもり〜',
       action: () => canCoaching ? switchMode('coaching') : router.push('/subscription'),
@@ -367,21 +367,21 @@ export default function ChatClient({
     // Row 2: navigation
     {
       id: 'diary',
-      img: '/potori/humming.png',
+      img: '/potori/humming.webp',
       title: 'ぽとりの日記',
       sub: isTakePlanUser ? 'DIARY' : 'やすらぎ〜',
       action: () => isTakePlanUser ? router.push('/counseling/diary') : router.push('/subscription'),
     },
     {
       id: 'reports',
-      img: '/potori/good.png',
+      img: '/potori/good.webp',
       title: 'レポート一覧',
       sub: isTakePlanUser ? 'REPORTS' : 'やすらぎ〜',
       action: () => isTakePlanUser ? router.push('/counseling/diary/reports') : router.push('/subscription'),
     },
     {
       id: 'jibunn-note',
-      img: '/potori/peek.png',
+      img: '/potori/peek.webp',
       title: 'じぶんノート',
       sub: canJibunnNote ? 'NOTE' : 'ぬくもり〜',
       action: () => canJibunnNote ? router.push('/counseling/jibunn-note') : router.push('/subscription'),
@@ -433,7 +433,7 @@ export default function ChatClient({
         </button>
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <div style={{ fontSize: '15px', fontWeight: 700, color: '#3F342D', display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Image src="/potori/humming.png" alt="" width={22} height={22} className="object-contain" />
+            <Image src="/potori/humming.webp" alt="" width={22} height={22} className="object-contain" />
             ぽとり
           </div>
           <div style={{ fontSize: '11px', color: '#3F342D66', letterSpacing: '0.03em' }}>
@@ -722,7 +722,7 @@ export default function ChatClient({
                   justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start',
                 }}>
                   {msg.role === 'assistant' && (
-                    <Image src="/potori/happy.png" alt="ぽとり" width={34} height={34} className="object-contain shrink-0" style={{ marginBottom: '2px' }} />
+                    <Image src="/potori/happy.webp" alt="ぽとり" width={34} height={34} className="object-contain shrink-0" style={{ marginBottom: '2px' }} />
                   )}
                   {msg.role === 'user' && msg.created_at && msg.content && (
                     <span style={{ fontSize: '10px', color: '#3F342D55', flexShrink: 0, marginBottom: '3px' }}>
@@ -915,7 +915,7 @@ export default function ChatClient({
                     display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer',
                   }}
                 >
-                  <Image src="/potori/peek.png" alt="" width={28} height={28} className="object-contain" style={{ filter: 'brightness(0) invert(1)', opacity: 0.9 }} />
+                  <Image src="/potori/peek.webp" alt="" width={28} height={28} className="object-contain" style={{ filter: 'brightness(0) invert(1)', opacity: 0.9 }} />
                   <div style={{ textAlign: 'left' }}>
                     <div style={{ fontSize: '13px', fontWeight: 700, color: '#fff' }}>サブスクに登録する</div>
                     <div style={{ fontSize: '10px', color: '#fff9', letterSpacing: '0.03em' }}>すべての機能を解放する</div>
@@ -938,7 +938,7 @@ export default function ChatClient({
                     display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer',
                   }}
                 >
-                  <Image src="/potori/peek.png" alt="" width={28} height={28} className="object-contain" style={{ filter: 'brightness(0) invert(1)', opacity: 0.7 }} />
+                  <Image src="/potori/peek.webp" alt="" width={28} height={28} className="object-contain" style={{ filter: 'brightness(0) invert(1)', opacity: 0.7 }} />
                   <div style={{ textAlign: 'left' }}>
                     <div style={{ fontSize: '13px', fontWeight: 700, color: isMatsuUser ? '#3F342D' : '#fff' }}>
                       {isMatsuUser ? 'プランを確認する' : 'プランをアップグレード'}

@@ -74,7 +74,7 @@ export default function PaidQuestionsClient({ diagnosisId }: { diagnosisId: stri
       <div className="min-h-screen flex flex-col items-center justify-center px-4" style={{ backgroundColor: '#FFF9F5' }}>
         <div className="text-center">
           <div className="flex justify-center mb-6">
-            <Image src="/potori/peek.png" alt="ぽとり" width={120} height={120} className="object-contain animate-bounce" />
+            <Image src="/potori/peek.webp" alt="ぽとり" width={120} height={120} className="object-contain animate-bounce" />
           </div>
           <h2 className="text-lg font-medium mb-3" style={{ color: '#3F342D' }}>
             ぽとりが分析しています...

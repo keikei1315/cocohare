@@ -33,7 +33,7 @@ export default async function PaidResultPage({ params }: { params: Promise<{ id:
 
       <div className="px-4 pt-10 pb-8 text-center">
         <div className="flex justify-center mb-4">
-          <Image src="/potori/happy.png" alt="ぽとり" width={90} height={90} className="object-contain" />
+          <Image src="/potori/happy.webp" alt="ぽとり" width={90} height={90} className="object-contain" />
         </div>
         <div className="inline-block px-3 py-1 rounded-full text-xs mb-3" style={{ backgroundColor: '#FAA66B', color: '#fff' }}>
           詳細レポート

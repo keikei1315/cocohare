@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
@@ -46,7 +46,7 @@ export default function OtherMultiPoller({ diagnosisId }: Props) {
 
   return (
     <div className="bg-white rounded-2xl p-5 shadow-sm text-center">
-      <Image src="/potori/humming.png" alt="ぽとり" width={60} height={60} className="object-contain mx-auto mb-3" />
+      <Image src="/potori/humming.webp" alt="ぽとり" width={60} height={60} className="object-contain mx-auto mb-3" />
       <p className="text-sm font-bold mb-1" style={{ color: '#3F342D' }}>みんなの視点を分析中です</p>
       <p className="text-xs leading-relaxed mb-4" style={{ color: '#3F342D99' }}>
         {diagnosisId ? '3人の回答をもとに分析しています。' : ''}

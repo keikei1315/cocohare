@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
@@ -27,7 +27,7 @@ export default function Header() {
         style={{ backgroundColor: '#FFF9F5', borderBottom: '1px solid #F0EAE5' }}
       >
         <Link href="/" className="flex items-center gap-2">
-          <Image src="/potori/humming.png" alt="ここはれ" width={28} height={28} className="object-contain" />
+          <Image src="/potori/humming.webp" alt="ここはれ" width={28} height={28} className="object-contain" />
           <span className="text-sm font-bold" style={{ color: '#3F342D' }}>CocoHare</span>
         </Link>
 

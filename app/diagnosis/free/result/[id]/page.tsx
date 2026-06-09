@@ -332,7 +332,7 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
       {/* タイプヘッダー */}
       <div className="px-4 pt-10 pb-8 text-center">
         <div className="flex justify-center mb-4">
-          <Image src="/potori/happy.png" alt="ぽとり" width={110} height={110} className="object-contain" />
+          <Image src="/potori/happy.webp" alt="ぽとり" width={110} height={110} className="object-contain" />
         </div>
         <p className="text-xs mb-1" style={{ color: '#3F342D66' }}>{typeDef.axis1Name} × {typeDef.axis2Name}</p>
         <h1 className="text-2xl font-bold mb-2" style={{ color: '#3F342D' }}>{typeDef.name}</h1>
@@ -930,7 +930,7 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
               {paidReport!.letter && (
                 <div className="rounded-2xl p-5 shadow-sm" style={{ backgroundColor: '#FFF2E8' }}>
                   <div className="flex justify-center mb-3">
-                    <Image src="/potori/comforting.png" alt="ぽとり" width={70} height={70} className="object-contain" />
+                    <Image src="/potori/comforting.webp" alt="ぽとり" width={70} height={70} className="object-contain" />
                   </div>
                   <h2 className="text-sm font-bold mb-3 text-center" style={{ color: '#FAA66B' }}>今のあなたへの手紙</h2>
                   <p className="text-sm leading-relaxed whitespace-pre-line" style={{ color: '#3F342D' }}>{paidReport!.letter.replace(/^.{1,20}さんへ[\r\n]+/, '')}</p>
@@ -1000,7 +1000,7 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
           ) : hasPaidPayment ? (
             <div className="rounded-2xl p-5 shadow-sm text-center" style={{ backgroundColor: '#FFF2E8' }}>
               <div className="flex justify-center mb-3">
-                <Image src="/potori/happy.png" alt="ぽとり" width={70} height={70} className="object-contain" />
+                <Image src="/potori/happy.webp" alt="ぽとり" width={70} height={70} className="object-contain" />
               </div>
               <p className="text-sm font-bold mb-2" style={{ color: '#3F342D' }}>診断の途中ですね</p>
               <p className="text-xs leading-relaxed mb-4" style={{ color: '#3F342D99' }}>
@@ -1041,7 +1041,7 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
                 /* 購入済み・回答途中 */
                 <div className="rounded-2xl p-5 shadow-sm text-center" style={{ backgroundColor: '#FFF2E8' }}>
                   <div className="flex justify-center mb-3">
-                    <Image src="/potori/happy.png" alt="ぽとり" width={70} height={70} className="object-contain" />
+                    <Image src="/potori/happy.webp" alt="ぽとり" width={70} height={70} className="object-contain" />
                   </div>
                   <p className="text-sm font-bold mb-2" style={{ color: '#3F342D' }}>完全版診断の途中ですね</p>
                   <p className="text-xs leading-relaxed mb-4" style={{ color: '#3F342D99' }}>
@@ -1059,7 +1059,7 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
               /* ¥4,960 CTA */
               <div className="rounded-2xl p-5 shadow-sm" style={{ backgroundColor: '#FFF2E8' }}>
                 <div className="flex justify-center mb-3">
-                  <Image src="/potori/good.png" alt="ぽとり" width={70} height={70} className="object-contain" />
+                  <Image src="/potori/good.webp" alt="ぽとり" width={70} height={70} className="object-contain" />
                 </div>
                 <h2 className="text-sm font-bold mb-2 text-center" style={{ color: '#FAA66B' }}>さらに深く知りたい方へ</h2>
                 <p className="text-xs leading-relaxed mb-1 text-center" style={{ color: '#3F342D' }}>

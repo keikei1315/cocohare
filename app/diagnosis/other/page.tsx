@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect, useCallback, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
@@ -89,7 +89,7 @@ function OtherDiagnosisContent() {
       <div className="w-full max-w-sm mx-auto">
 
         <div className="flex justify-center mb-5">
-          <Image src="/potori/humming.png" alt="ぽとり" width={90} height={90} className="object-contain" />
+          <Image src="/potori/humming.webp" alt="ぽとり" width={90} height={90} className="object-contain" />
         </div>
 
         <h1 className="text-xl font-bold text-center mb-2" style={{ color: '#3F342D' }}>他者視点診断</h1>

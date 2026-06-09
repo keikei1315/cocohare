@@ -6,7 +6,7 @@ export default function OtherDiagnosisDonePage() {
     <div className="min-h-screen flex flex-col items-center justify-center px-4" style={{ backgroundColor: '#FFF9F5' }}>
       <div className="w-full max-w-sm text-center">
         <div className="flex justify-center mb-6">
-          <Image src="/potori/good.png" alt="ぽとり" width={110} height={110} className="object-contain" />
+          <Image src="/potori/good.webp" alt="ぽとり" width={110} height={110} className="object-contain" />
         </div>
 
         <h1 className="text-xl font-bold mb-3" style={{ color: '#3F342D' }}>

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import Image from 'next/image'
@@ -145,7 +145,7 @@ export default function SubscriptionClient({
   if (successMsg) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center px-4" style={{ backgroundColor: '#FFF9F5' }}>
-        <Image src="/potori/happy.png" alt="" width={64} height={64} className="object-contain mb-4" />
+        <Image src="/potori/happy.webp" alt="" width={64} height={64} className="object-contain mb-4" />
         <p className="text-lg font-bold mb-2" style={{ color: '#3F342D' }}>{successMsg}</p>
         <button
           onClick={() => router.push('/counseling/chat')}
@@ -168,7 +168,7 @@ export default function SubscriptionClient({
         </button>
 
         <div className="flex items-center gap-3 mb-2">
-          <Image src="/potori/happy.png" alt="ぽとり" width={40} height={40} className="object-contain" />
+          <Image src="/potori/happy.webp" alt="ぽとり" width={40} height={40} className="object-contain" />
           <h1 className="text-xl font-bold" style={{ color: '#3F342D' }}>
             {isSubscribed ? 'プランを変更する' : 'プランを選ぶ'}
           </h1>

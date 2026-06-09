@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -96,7 +96,7 @@ export default function GlobalNavDrawer({ isOpen, onClose }: Props) {
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Image src="/potori/humming.png" alt="" width={28} height={28} className="object-contain" />
+            <Image src="/potori/humming.webp" alt="" width={28} height={28} className="object-contain" />
             <span style={{ fontSize: '16px', fontWeight: 700, color: '#3F342D' }}>CocoHare</span>
           </div>
           <button onClick={onClose} style={{ padding: '4px' }}>

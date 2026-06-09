@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
@@ -222,7 +222,7 @@ export default function JibunnNoteClient({ initialNotes, initialLimit, initialUs
             トーク
           </button>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Image src="/potori/humming.png" alt="" width={22} height={22} className="object-contain" />
+            <Image src="/potori/humming.webp" alt="" width={22} height={22} className="object-contain" />
             <span style={{ fontSize: '16px', fontWeight: 700, color: '#3F342D' }}>じぶんノート</span>
           </div>
           <button
@@ -244,7 +244,7 @@ export default function JibunnNoteClient({ initialNotes, initialLimit, initialUs
 
         {notes.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '60px 24px' }}>
-            <Image src="/potori/peek.png" alt="" width={80} height={80} className="object-contain mx-auto mb-4" />
+            <Image src="/potori/peek.webp" alt="" width={80} height={80} className="object-contain mx-auto mb-4" />
             <p style={{ fontSize: '15px', fontWeight: 600, color: '#3F342D', marginBottom: '8px' }}>
               ノートがまだありません
             </p>
@@ -565,7 +565,7 @@ export default function JibunnNoteClient({ initialNotes, initialLimit, initialUs
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Image src="/potori/comforting.png" alt="" width={28} height={28} className="object-contain" />
+                <Image src="/potori/comforting.webp" alt="" width={28} height={28} className="object-contain" />
                 <span style={{ fontSize: '16px', fontWeight: 700, color: '#3F342D' }}>ノートを作る</span>
               </div>
               <button onClick={() => setFormOpen(false)} style={{ color: '#3F342D44', fontSize: '20px', lineHeight: 1 }}>✕</button>

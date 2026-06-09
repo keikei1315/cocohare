@@ -31,7 +31,7 @@ export default function PaidResultPolling({ diagnosisId }: { diagnosisId: string
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4" style={{ backgroundColor: '#FFF9F5' }}>
-      <Image src="/potori/humming.png" alt="ぽとり" width={90} height={90} className="object-contain mb-6" />
+      <Image src="/potori/humming.webp" alt="ぽとり" width={90} height={90} className="object-contain mb-6" />
       <h1 className="text-lg font-bold mb-3 text-center" style={{ color: '#3F342D' }}>
         詳細レポートを生成中です
       </h1>

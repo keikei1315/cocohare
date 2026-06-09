@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
@@ -407,7 +407,7 @@ export default function PaidResultStream({ diagnosisId, initialData, scores }: P
       {fields.letter ? (
         <div className="rounded-2xl p-5 shadow-sm section-reveal" style={{ backgroundColor: '#FFF2E8' }}>
           <div className="flex justify-center mb-3">
-            <Image src="/potori/comforting.png" alt="ぽとり" width={80} height={80} className="object-contain" />
+            <Image src="/potori/comforting.webp" alt="ぽとり" width={80} height={80} className="object-contain" />
           </div>
           <div className="flex items-center justify-center gap-2 mb-4">
             <span className="text-xl">💌</span>

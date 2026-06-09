@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
@@ -290,7 +290,7 @@ export default function FreeResultStream({ diagnosisId, metadata, initialData, s
       {fields.message ? (
         <div id="message" className="rounded-2xl p-5 shadow-sm section-reveal" style={{ backgroundColor: '#FFF2E8' }}>
           <div className="flex justify-center mb-3">
-            <Image src="/potori/comforting.png" alt="ぽとり" width={80} height={80} className="object-contain" />
+            <Image src="/potori/comforting.webp" alt="ぽとり" width={80} height={80} className="object-contain" />
           </div>
           <h2 className="text-sm font-bold mb-3 text-center" style={{ color: '#FAA66B' }}>ぽとりからのメッセージ</h2>
           <p className="text-sm leading-relaxed text-center" style={{ color: '#3F342D' }}>「{fields.message}」</p>

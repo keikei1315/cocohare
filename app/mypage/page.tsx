@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation'
+﻿import { redirect } from 'next/navigation'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
@@ -152,7 +152,7 @@ export default async function MyPage() {
     <div className="min-h-screen pb-24" style={{ backgroundColor: '#FFF9F5' }}>
       <div className="px-4 pt-10 pb-6 max-w-sm mx-auto">
         <div className="flex justify-center mb-4">
-          <Image src="/potori/happy.png" alt="ぽとり" width={70} height={70} className="object-contain" />
+          <Image src="/potori/happy.webp" alt="ぽとり" width={70} height={70} className="object-contain" />
         </div>
         <h1 className="text-lg font-bold text-center mb-1" style={{ color: '#3F342D' }}>マイページ</h1>
         <p className="text-xs text-center mb-8" style={{ color: '#3F342D66' }}>{user.email}</p>

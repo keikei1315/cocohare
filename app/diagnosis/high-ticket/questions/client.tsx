@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useRef, useCallback, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
@@ -187,7 +187,7 @@ export default function HighTicketQuestionsClient({
       <div className="min-h-screen flex flex-col items-center justify-center px-4 pb-16" style={{ backgroundColor: '#FFF9F5' }}>
         <div className="w-full max-w-sm text-center">
           <div className="flex justify-center mb-6">
-            <Image src="/potori/happy.png" alt="ぽとり" width={100} height={100} className="object-contain" />
+            <Image src="/potori/happy.webp" alt="ぽとり" width={100} height={100} className="object-contain" />
           </div>
           <div className="inline-block px-3 py-1 rounded-full text-xs mb-4 font-medium" style={{ backgroundColor: '#FFF2E8', color: '#FAA66B' }}>
             完全版自己分析
@@ -234,7 +234,7 @@ export default function HighTicketQuestionsClient({
       <div className="min-h-screen flex flex-col items-center justify-center px-4" style={{ backgroundColor: '#FFF9F5' }}>
         <div className="text-center">
           <div className="flex justify-center mb-6">
-            <Image src="/potori/humming.png" alt="ぽとり" width={100} height={100} className="object-contain" />
+            <Image src="/potori/humming.webp" alt="ぽとり" width={100} height={100} className="object-contain" />
           </div>
           <h2 className="text-base font-medium mb-2" style={{ color: '#3F342D' }}>回答を送信しています...</h2>
           <div className="mt-4 flex gap-1 justify-center">
@@ -253,7 +253,7 @@ export default function HighTicketQuestionsClient({
       <div className="min-h-screen flex flex-col items-center justify-center px-4" style={{ backgroundColor: '#FFF9F5' }}>
         <div className="w-full max-w-sm text-center">
           <div className="flex justify-center mb-4">
-            <Image src="/potori/comforting.png" alt="ぽとり" width={90} height={90} className="object-contain" />
+            <Image src="/potori/comforting.webp" alt="ぽとり" width={90} height={90} className="object-contain" />
           </div>
           <h2 className="text-base font-medium mb-2" style={{ color: '#3F342D' }}>エラーが発生しました</h2>
           <p className="text-sm mb-6" style={{ color: '#3F342D99' }}>{errorMsg}</p>
