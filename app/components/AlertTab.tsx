@@ -211,26 +211,18 @@ export default function AlertTab() {
           <button onClick={() => setPanelOpen(false)} style={{ fontSize: '12px', color: '#3F342D66' }}>✕</button>
         </div>
 
+        {/* showNotif は非表示（方針変更時に復元）
         {showNotif && (
           <div style={{ padding: '12px 16px', borderBottom: '1px solid #F5EEE9' }}>
             <div style={{ fontSize: '11px', fontWeight: 700, color: '#3F342D', marginBottom: '3px' }}>🔔 通知を許可する</div>
             <div style={{ fontSize: '10px', color: '#3F342D88', marginBottom: '8px', lineHeight: 1.5 }}>ぽとりからのお知らせを受け取れます</div>
             <div style={{ display: 'flex', gap: '6px' }}>
-              <button
-                onClick={handleNotifAction}
-                style={{ flex: 1, padding: '7px', backgroundColor: '#FAA66B', borderRadius: '6px', fontSize: '11px', fontWeight: 700, color: '#fff' }}
-              >
-                許可する
-              </button>
-              <button
-                onClick={() => setShowNotif(false)}
-                style={{ padding: '7px 10px', backgroundColor: '#F5EEE9', borderRadius: '6px', fontSize: '11px', color: '#3F342D88' }}
-              >
-                後で
-              </button>
+              <button onClick={handleNotifAction} style={{ flex: 1, padding: '7px', backgroundColor: '#FAA66B', borderRadius: '6px', fontSize: '11px', fontWeight: 700, color: '#fff' }}>許可する</button>
+              <button onClick={() => setShowNotif(false)} style={{ padding: '7px 10px', backgroundColor: '#F5EEE9', borderRadius: '6px', fontSize: '11px', color: '#3F342D88' }}>後で</button>
             </div>
           </div>
         )}
+        */}
 
         {showPassword && (
           <div style={{ padding: '12px 16px', borderBottom: showPwa ? '1px solid #F5EEE9' : 'none' }}>
@@ -253,6 +245,7 @@ export default function AlertTab() {
           </div>
         )}
 
+        {/* showPwa は非表示（方針変更時に復元）
         {showPwa && (
           <div style={{ padding: '12px 16px' }}>
             <div style={{ fontSize: '11px', fontWeight: 700, color: '#3F342D', marginBottom: '3px' }}>📱 ホーム画面に追加する</div>
@@ -260,21 +253,12 @@ export default function AlertTab() {
               {isIOS ? '「共有」→「ホーム画面に追加」でアプリのように使えます' : 'アプリとしてインストールできます'}
             </div>
             <div style={{ display: 'flex', gap: '6px' }}>
-              <button
-                onClick={handlePwaAction}
-                style={{ flex: 1, padding: '7px', backgroundColor: '#FAA66B', borderRadius: '6px', fontSize: '11px', fontWeight: 700, color: '#fff' }}
-              >
-                {isIOS ? '共有シートを開く' : 'ホーム画面に追加'}
-              </button>
-              <button
-                onClick={handlePwaDismiss}
-                style={{ padding: '7px 10px', backgroundColor: '#F5EEE9', borderRadius: '6px', fontSize: '11px', color: '#3F342D88' }}
-              >
-                後で
-              </button>
+              <button onClick={handlePwaAction} style={{ flex: 1, padding: '7px', backgroundColor: '#FAA66B', borderRadius: '6px', fontSize: '11px', fontWeight: 700, color: '#fff' }}>{isIOS ? '共有シートを開く' : 'ホーム画面に追加'}</button>
+              <button onClick={handlePwaDismiss} style={{ padding: '7px 10px', backgroundColor: '#F5EEE9', borderRadius: '6px', fontSize: '11px', color: '#3F342D88' }}>後で</button>
             </div>
           </div>
         )}
+        */}
       </div>
     </>
   )

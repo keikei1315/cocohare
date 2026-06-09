@@ -97,6 +97,17 @@ cocohare内のチャット・一部機能への導線をUIから削除した。
 
 ---
 
+### 4. `app/components/AlertTab.tsx`
+
+**非表示にしたもの（コメントアウト済み）：**
+- 「通知を許可する」🔔（`showNotif` ブロック）
+- 「ホーム画面に追加する」📱（`showPwa` ブロック）
+
+**残したもの：**
+- 「パスワードを設定する」🔑（`showPassword` ブロック）
+
+---
+
 ## 復元方法
 
 1. `home-client.tsx` の「ぽとりと話す」カードを元の位置に追加、`PwaNotifButtons` のコメントアウトを解除
