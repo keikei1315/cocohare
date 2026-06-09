@@ -39,7 +39,7 @@ cocohare内のチャット・一部機能への導線をUIから削除した。
 ```tsx
 <PwaNotifButtons />
 ```
-※ コメントアウトで残してある（`{/* <PwaNotifButtons /> */}`）
+※ サブスク済み・未サブスク両方のセクションでコメントアウト済み
 
 **追加したもの：LINE CTA（診断ボタン下・両状態共通）**
 - LINEアイコン（`/LINE_Brand_icon.png`）付きカード
