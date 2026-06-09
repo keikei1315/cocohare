@@ -57,7 +57,7 @@ export default function HomeClient() {
           <Image src="/logo.png" alt="CocoHare" width={120} height={36} className="mx-auto mb-2" />
           <p className="text-sm mb-7" style={{ color: '#3F342D99' }}>こころ晴れる毎日を</p>
 
-          <PwaNotifButtons />
+          {/* <PwaNotifButtons /> */}
 
           <div className="bg-white rounded-2xl shadow-sm p-5 mb-4">
             <div className="flex justify-center mb-3">

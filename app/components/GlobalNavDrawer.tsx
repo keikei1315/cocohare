@@ -113,6 +113,7 @@ export default function GlobalNavDrawer({ isOpen, onClose }: Props) {
 
           {isLoggedIn && (
             <>
+              {/* ぽとりの日記・気分チェック・週間レポートは非表示（方針変更時に復元）
               {(plan === 'take' || plan === 'matsu') && (
                 <>
                   <button style={itemStyle} onClick={() => go('/counseling/diary')}>{icons.diary}ぽとりの日記</button>
@@ -120,6 +121,7 @@ export default function GlobalNavDrawer({ isOpen, onClose }: Props) {
                   <button style={itemStyle} onClick={() => go('/counseling/diary/reports')}>{icons.report}週間レポート</button>
                 </>
               )}
+              */}
               {(plan === 'matsu' || hasHighTicket) && (
                 <button style={itemStyle} onClick={() => go('/counseling/jibunn-note')}>{icons.note}じぶんノート</button>
               )}
