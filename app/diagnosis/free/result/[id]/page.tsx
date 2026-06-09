@@ -1131,16 +1131,35 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
         )}
 
         {/* LINE カウンセリング導線 */}
-        <a
-          href="https://line.me/R/ti/p/@455zndeb"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block rounded-2xl p-5 text-center"
-          style={{ backgroundColor: '#00B900', textDecoration: 'none' }}
-        >
-          <p className="text-sm font-bold mb-1" style={{ color: '#fff' }}>LINEでAIカウンセリング</p>
-          <p className="text-xs" style={{ color: '#ffffff99' }}>ぽとりとLINEで話してみよう</p>
-        </a>
+        <div className="bg-white rounded-2xl p-5 shadow-sm" style={{ border: '1.5px solid #00B90033' }}>
+          <div className="flex items-center gap-3 mb-3">
+            <Image src="/LINE_Brand_icon.png" alt="LINE" width={32} height={32} className="object-contain" />
+            <div>
+              <p className="text-sm font-bold" style={{ color: '#3F342D' }}>LINEでAIカウンセリング</p>
+              <p className="text-xs" style={{ color: '#3F342D99' }}>ぽとりとLINEで話してみよう</p>
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <a
+              href="https://line.me/R/ti/p/@455zndeb"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 py-2.5 rounded-xl text-center text-xs font-bold"
+              style={{ backgroundColor: '#00B900', color: '#fff', textDecoration: 'none' }}
+            >
+              友達追加して始める
+            </a>
+            <a
+              href="https://potori.cocohare-life.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 py-2.5 rounded-xl text-center text-xs font-medium"
+              style={{ border: '1.5px solid #00B900', color: '#00B900', textDecoration: 'none' }}
+            >
+              詳細はこちら
+            </a>
+          </div>
+        </div>
 
       </div>
     </div>

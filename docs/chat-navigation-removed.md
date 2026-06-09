@@ -42,18 +42,9 @@ cocohare内のチャット・一部機能への導線をUIから削除した。
 ※ コメントアウトで残してある（`{/* <PwaNotifButtons /> */}`）
 
 **追加したもの：LINE CTA（診断ボタン下・両状態共通）**
-```tsx
-<a
-  href="https://line.me/R/ti/p/@455zndeb"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="block rounded-2xl p-5 mb-4 text-center"
-  style={{ backgroundColor: '#00B900', textDecoration: 'none' }}
->
-  <p className="text-sm font-bold mb-1" style={{ color: '#fff' }}>LINEでAIカウンセリング</p>
-  <p className="text-xs" style={{ color: '#ffffff99' }}>ぽとりとLINEで話してみよう</p>
-</a>
-```
+- LINEアイコン（`/LINE_Brand_icon.png`）付きカード
+- 「友達追加して始める」ボタン → `https://line.me/R/ti/p/@455zndeb`
+- 「詳細はこちら」ボタン → `https://potori.cocohare-life.com/`
 
 ---
 
@@ -100,18 +91,9 @@ cocohare内のチャット・一部機能への導線をUIから削除した。
 ### 3. `app/diagnosis/free/result/[id]/page.tsx`
 
 **追加したもの：LINE CTA（ページ最下部）**
-```tsx
-<a
-  href="https://line.me/R/ti/p/@455zndeb"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="block rounded-2xl p-5 text-center"
-  style={{ backgroundColor: '#00B900', textDecoration: 'none' }}
->
-  <p className="text-sm font-bold mb-1" style={{ color: '#fff' }}>LINEでAIカウンセリング</p>
-  <p className="text-xs" style={{ color: '#ffffff99' }}>ぽとりとLINEで話してみよう</p>
-</a>
-```
+- LINEアイコン（`/LINE_Brand_icon.png`）付きカード
+- 「友達追加して始める」ボタン → `https://line.me/R/ti/p/@455zndeb`
+- 「詳細はこちら」ボタン → `https://potori.cocohare-life.com/`
 
 ---
 
